@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+}
+
+a {
+  margin: 30px
+}
+
+.loginMenuImg{
+  background-image: url('../public/wevapeloginopt.png');
+}
