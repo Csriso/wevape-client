@@ -7,13 +7,12 @@ function UtilityWrapper(props) {
     // todos los estados y funciones
     const [newStoryForm, setNewStoryForm] = useState(false)
 
-    const passedContext = {
+    const utilPassedContext = {
         newStoryForm,
-        setNewStoryForm
     }
 
     return (
-        <UtilityContext.Provider utilityContext={passedContext}>
+        <UtilityContext.Provider utilityContext={utilPassedContext} >
             {props.children}
         </UtilityContext.Provider>
     )
