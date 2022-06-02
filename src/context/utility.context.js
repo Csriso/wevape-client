@@ -9,10 +9,11 @@ function UtilityWrapper(props) {
 
     const utilPassedContext = {
         newStoryForm,
+        setNewStoryForm,
     }
 
     return (
-        <UtilityContext.Provider utilityContext={utilPassedContext} >
+        <UtilityContext.Provider value={utilPassedContext} >
             {props.children}
         </UtilityContext.Provider>
     )
