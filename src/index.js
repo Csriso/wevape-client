@@ -6,14 +6,22 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter } from 'react-router-dom';
 import { AuthWrapper } from './context/auth.context';
+import { UtilityContext } from './context/utility.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AuthWrapper>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </AuthWrapper>
+  <UtilityContext>
+    {
+      utilityContext => (
+        <AuthWrapper>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthWrapper>
+      )
+    }
+
+  </UtilityContext>
 );
 
 // If you want to start measuring performance in your app, pass a function

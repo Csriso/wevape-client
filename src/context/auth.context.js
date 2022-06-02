@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react"
+import { SyncLoader } from "react-spinners"
 import { verifyService } from "../services/auth.services"
 
 const AuthContext = createContext()
@@ -6,7 +7,7 @@ const AuthContext = createContext()
 function AuthWrapper(props) {
 
     // todos los estados y funciones
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(null)
     const [user, setUser] = useState(null)
 
     const authenticateUser = async () => {
@@ -35,6 +36,16 @@ function AuthWrapper(props) {
         authenticateUser();
     }, [])
 
+    if (isLoggedIn === null) {
+        return (
+            <div className="App h-screen">
+                <div class="flex flex-col align-items-center justify-center h-screen">
+                    <img src="/logo.png" width={200} alt="" className="self-center mb-5" />
+                    <SyncLoader color={"#ffffff"} />
+                </div>
+            </div>
+        )
+    }
 
     return (
         <AuthContext.Provider value={passedContext}>

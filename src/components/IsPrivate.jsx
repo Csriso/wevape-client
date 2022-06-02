@@ -1,18 +1,18 @@
-import { useContext} from 'react'
+import { useContext } from 'react'
 import { AuthContext } from "../context/auth.context.js"
 import { Navigate } from "react-router-dom"
-// Navigate es un COMPONENTE que funciona similar a navigate de useNavigate
+// import { useNavigate } from 'react-router-dom'
 
-// un HOC => Higher Order Component
-function IsPrivate(props) {
+export default function IsPrivate(props) {
 
-  const { isLoggedIn } = useContext(AuthContext)
+    const { isLoggedIn } = useContext(AuthContext)
+    // const navigate = useNavigate();
+    console.log(isLoggedIn)
 
-  if (isLoggedIn === true) {
-    return props.children
-  } else {
-    return <Navigate to="/login"/>
-  }
+    if (isLoggedIn === true) {
+        return props.children
+    } else {
+        // navigate("/login")
+        return <Navigate to="/login" />
+    }
 }
-
-export default IsPrivate

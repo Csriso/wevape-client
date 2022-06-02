@@ -3,7 +3,7 @@ import Post from './Post'
 export default function Feed() {
   return (
     <div className="w-4/6">
-        Feed...
+      Feed...
     </div>
   )
 }

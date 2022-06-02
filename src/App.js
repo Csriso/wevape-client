@@ -1,5 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router";
+import { useEffect, useRef } from "react";
 
 // pages
 import Error from './pages/Error';
@@ -11,6 +12,7 @@ import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 
 import IsPrivate from './components/IsPrivate'
+
 
 function App() {
   return (
