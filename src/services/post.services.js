@@ -1,19 +1,24 @@
 import service from "./config.services";
 
-const getAllPostsService = (user) => {
-    return service.post("/auth/signup", user)
+const getAllPostsService = () => {
+    return service.get("/post")
 }
 
-const loginService = (user) => {
-    return service.post("/auth/login", user);
+const newPostService = (data) => {
+    return service.post("/post", data);
 }
 
-const verifyService = () => {
-    return service.get("/auth/verify");
-}
+// const loginService = (user) => {
+//     return service.post("/auth/login", user);
+// }
+
+// const verifyService = () => {
+//     return service.get("/auth/verify");
+// }
 
 export {
     getAllPostsService,
-    loginService,
-    verifyService
+    newPostService,
+    // loginService,
+    // verifyService
 }
