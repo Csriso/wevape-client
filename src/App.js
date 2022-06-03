@@ -6,28 +6,37 @@ import { useEffect, useRef } from "react";
 import Error from './pages/Error';
 import NotFound from './pages/NotFound';
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
 // components
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
-
 import IsPrivate from './components/IsPrivate'
-
+import LeftBar from "./components/LeftBar";
+import RightBar from "./components/RightBar";
 
 function App() {
   return (
     <div className="App">
-      {/* <TopBar /> */}
-      <Routes>
-        <Route path="/" element={<IsPrivate><Home /></IsPrivate>} />
+      <div className="flex flex-row flex-wrap">
+        <LeftBar />
 
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+        {/* <TopBar /> */}
+        <Routes>
+          <Route path="/" element={<IsPrivate><Home /></IsPrivate>} />
+          <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
 
-        {/* error FE routes */}
-        <Route path="/error" element={<Error />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+
+          {/* error FE routes */}
+          <Route path="/error" element={<Error />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <RightBar />
+
+      </div>
+
     </div>
   );
 }
