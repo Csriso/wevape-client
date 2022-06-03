@@ -71,6 +71,7 @@ export default function Feed(props) {
 
   // REFs
   const inputFile = useRef(null);
+  const newStoryFormRef = useRef();
 
   return (
     <div className="w-4/6 flex flex-col">

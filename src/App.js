@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 
 // components
+import Post from "./components/Post";
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 import IsPrivate from './components/IsPrivate'
@@ -27,6 +28,8 @@ function App() {
           <Route path="/" element={<IsPrivate><Home /></IsPrivate>} />
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
           <Route path="/profile/:id" element={<IsPrivate><Profile /></IsPrivate>} />
+
+          <Route path="/post/:id" element={<IsPrivate><Post /></IsPrivate>} />
 
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
