@@ -7,7 +7,9 @@ import { BsImageFill } from 'react-icons/bs'
 import { uploadImage } from '../services/util.services'
 import Post from './Post.jsx';
 
-export default function Feed() {
+export default function Feed(props) {
+
+  // Props
 
   // States
   const [newMessage, setNewMessage] = useState(null);
@@ -46,7 +48,7 @@ export default function Feed() {
     }
   }
 
-  const handleFileChange = (e) => { setFileImage(e.target.files[0]); console.log(fileImage); }
+  const handleFileChange = (e) => { setFileImage(e.target.files[0]); }
   const handleInputClick = (e) => { inputFile.current.click() }
 
   //UseEffects
@@ -66,14 +68,13 @@ export default function Feed() {
   }
 
   // REFs
-  const boxRef = useRef();
   const inputFile = useRef(null);
 
   return (
     <div className="w-4/6 flex flex-col">
       {/* Add story form */}
       {newStoryForm &&
-        <div ref={boxRef} className='my-5 flex flex-col justify-center justify-items-center content-center px-5 border-b dark:border-gray-600'>
+        <div className='my-5 flex flex-col justify-center justify-items-center content-center px-5 border-b dark:border-gray-600'>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col justify-center justify-items-center content-center items-center">
               <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center">
@@ -82,7 +83,7 @@ export default function Feed() {
               <div className="w-5/6 mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
                 <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
                   <label for="imageUrl">
-                    <input ref={inputFile} onChange={handleFileChange} type="file" name="imageUrl" id="" style={{ "display": "none" }} />
+                    <input ref={inputFile} onChange={handleFileChange} type="file" name="imageUrl" style={{ "display": "none" }} />
                     <BsImageFill />
                   </label>
                 </div>
