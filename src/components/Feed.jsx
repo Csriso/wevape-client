@@ -17,7 +17,7 @@ export default function Feed(props) {
   const [fileImage, setFileImage] = useState(null);
 
   //Contexts
-  const { newStoryForm } = useContext(UtilityContext)
+  const { newStoryForm, setNewStoryForm } = useContext(UtilityContext)
   const { user } = useContext(AuthContext)
 
   //Handlers
@@ -42,7 +42,9 @@ export default function Feed(props) {
         }
       }
       await newPostService(data);
-      getPosts();
+      await getPosts();
+      setNewStoryForm(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +76,7 @@ export default function Feed(props) {
     <div className="w-4/6 flex flex-col">
       {/* Add story form */}
       {newStoryForm &&
-        <div className='my-5 flex flex-col justify-center justify-items-center content-center px-5 border-b dark:border-gray-600'>
+        <div style={{ width: "inherit" }} className='fixed top-0 w-auto bg-black pt-5 mb-5 flex flex-col justify-center justify-items-center content-center px-5 border-b dark:border-gray-600'>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col justify-center justify-items-center content-center items-center">
               <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center">
@@ -99,10 +101,12 @@ export default function Feed(props) {
       {/* Loading posts */}
       {posts === null && <ClipLoader />}
       {/* After loading posts */}
-      {posts !== null && posts.map(elem => {
-        return (<Post data={elem} />)
-      })}
-    </div>
+      {
+        posts !== null && posts.map(elem => {
+          return (<Post data={elem} />)
+        })
+      }
+    </div >
 
   )
 }
