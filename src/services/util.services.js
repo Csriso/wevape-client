@@ -1,8 +1,8 @@
 import service from "./config.services";
 
 
-const uploadImage = (file) => {
-    return service.post("/upload", file);
+const uploadImage = (imageUrl) => {
+    return service.post("/upload", imageUrl);
 }
 
 export {

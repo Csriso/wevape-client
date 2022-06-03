@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router";
-import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 // pages
 import Error from './pages/Error';
@@ -16,15 +16,17 @@ import LeftBar from "./components/LeftBar";
 import RightBar from "./components/RightBar";
 
 function App() {
+  const location = useLocation();
   return (
     <div className="App">
       <div className="flex flex-row flex-wrap">
-        <LeftBar />
+        {(location.pathname !== "/login" && location.pathname !== "/signup") && <LeftBar />}
 
         {/* <TopBar /> */}
         <Routes>
           <Route path="/" element={<IsPrivate><Home /></IsPrivate>} />
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
+          <Route path="/profile/:id" element={<IsPrivate><Profile /></IsPrivate>} />
 
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
@@ -33,7 +35,7 @@ function App() {
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <RightBar />
+        {(location.pathname !== "/login" && location.pathname !== "/signup") && <RightBar />}
 
       </div>
 
