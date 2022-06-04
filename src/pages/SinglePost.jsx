@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import FormatTime from './FormatTime';
+import FormatTime from '../components/FormatTime';
 import { FaRegComment, FaRegHeart } from 'react-icons/fa'
 import { AuthContext } from '../context/auth.context'
 import gsap from 'gsap';
-import Lightbox from 'react-image-lightbox';
 
 export default function Post(props) {
     const { id } = useParams();
@@ -50,12 +49,6 @@ export default function Post(props) {
                     <br />
                 </div>
             </Link>
-            {imageOpen && (
-                <Lightbox
-                    mainSrc={imageUrl}
-                    onCloseRequest={() => setImageOpen(false)}
-                />
-            )}
         </div>
     )
 }

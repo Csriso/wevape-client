@@ -7,6 +7,7 @@ import Error from './pages/Error';
 import NotFound from './pages/NotFound';
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import SinglePost from './pages/SinglePost'
 
 // components
 import Post from "./components/Post";
@@ -29,7 +30,7 @@ function App() {
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
           <Route path="/profile/:id" element={<IsPrivate><Profile /></IsPrivate>} />
 
-          <Route path="/post/:id" element={<IsPrivate><Post /></IsPrivate>} />
+          <Route path="/post/:id" element={<IsPrivate><SinglePost /></IsPrivate>} />
 
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
