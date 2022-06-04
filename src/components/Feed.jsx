@@ -62,7 +62,6 @@ export default function Feed(props) {
   const getPosts = async () => {
     try {
       const response = await getAllPostsService();
-      console.log(response.data);
       setPosts(response.data)
     } catch (error) {
 

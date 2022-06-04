@@ -8,7 +8,7 @@ import gsap from 'gsap';
 export default function Post(props) {
     const { id } = useParams();
     // Props
-    const { _id, user, createdAt, imageUrl, message } = props.data;
+    const { _id, user, createdAt, imageUrl, message, likeCount } = props.data;
     const { imageOpen, setImageOpen } = useState(false);
     // GSAP Animations
     const onEnter = ({ currentTarget }) => {

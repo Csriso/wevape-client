@@ -8,9 +8,9 @@ const newPostService = (data) => {
     return service.post("/post", data);
 }
 
-// const loginService = (user) => {
-//     return service.post("/auth/login", user);
-// }
+const manageLikeService = (id, user) => {
+    return service.patch(`/post/${id}/manageLikes`, user);
+}
 
 // const verifyService = () => {
 //     return service.get("/auth/verify");
@@ -19,6 +19,7 @@ const newPostService = (data) => {
 export {
     getAllPostsService,
     newPostService,
+    manageLikeService,
     // loginService,
     // verifyService
 }
