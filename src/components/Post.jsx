@@ -30,7 +30,7 @@ export default function Post(props) {
 
   const handleAddLike = async (e) => {
     e.preventDefault();
-    console.log(loggedUser);
+    console.log(_id, loggedUser);
     const response = await manageLikeService(_id, loggedUser);
     console.log(response);
     console.log("adding like");
