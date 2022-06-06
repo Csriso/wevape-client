@@ -4,6 +4,10 @@ const getAllPostsService = () => {
     return service.get("/post")
 }
 
+const getPostService = (id) => {
+    return service.get(`/post/${id}`);
+}
+
 const newPostService = (data) => {
     return service.post("/post", data);
 }
@@ -18,6 +22,7 @@ const manageLikeService = (id, user) => {
 
 export {
     getAllPostsService,
+    getPostService,
     newPostService,
     manageLikeService,
     // loginService,

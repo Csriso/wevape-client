@@ -10,12 +10,10 @@ function AuthWrapper(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(null)
     const [user, setUser] = useState(null)
 
+
     const authenticateUser = async () => {
         try {
-            // donde llamaremos a esa ruta verify
             const response = await verifyService()
-            console.log("Token valido")
-            console.log("el payload es:", response.data)
             setIsLoggedIn(true)
             setUser(response.data);
 
@@ -23,6 +21,7 @@ function AuthWrapper(props) {
             setIsLoggedIn(false);
             setUser(null);
             console.log("El usuario no tiene token o el token no es valido")
+            console.log(error);
         }
     }
 

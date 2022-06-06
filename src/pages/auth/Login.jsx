@@ -25,7 +25,7 @@ export default function Login() {
     try {
       const response = await loginService(user);
       localStorage.setItem("authToken", response.data.authToken)
-      authenticateUser();
+      await authenticateUser();
       navigate("/");
 
     } catch (error) {

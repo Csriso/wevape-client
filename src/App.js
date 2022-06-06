@@ -10,7 +10,7 @@ import Profile from "./pages/Profile";
 import SinglePost from './pages/SinglePost'
 
 // components
-import Post from "./components/Post";
+// import Post from "./components/Post";
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 import IsPrivate from './components/IsPrivate'
@@ -23,7 +23,6 @@ function App() {
     <div className="App">
       <div className="flex flex-row flex-wrap">
         {(location.pathname !== "/login" && location.pathname !== "/signup") && <LeftBar />}
-
         {/* <TopBar /> */}
         <Routes>
           <Route path="/" element={<IsPrivate><Home /></IsPrivate>} />
@@ -40,7 +39,6 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         {(location.pathname !== "/login" && location.pathname !== "/signup") && <RightBar />}
-
       </div>
 
     </div>
