@@ -9,10 +9,11 @@ import { BsImageFill } from 'react-icons/bs'
 import LightBox from '../components/LightBox';
 import { getPostService, manageLikeService } from '../services/post.services';
 import { uploadImage } from '../services/util.services';
+import { createNewComment } from '../services/comment.services';
 
-export default function Post(props) {
+export default function Post() {
     const { id } = useParams();
-    // Props
+    // States
     const [imageOpen, setImageOpen] = useState(false);
     const [likedPost, setLikedPost] = useState(false);
     const [postInfo, setPostInfo] = useState(null);
@@ -31,6 +32,7 @@ export default function Post(props) {
         try {
             const response = await getPostService(id);
             setPostInfo(response.data);
+            console.log(response.data)
             checkIfPostLiked();
         } catch (error) {
             console.log(error);
@@ -74,6 +76,7 @@ export default function Post(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("SUMBIIIIIIIIIIIIIIT");
         try {
             let data;
             if (fileImage !== null) {
@@ -81,19 +84,20 @@ export default function Post(props) {
                 uploadData.append("imageUrl", fileImage);
                 const imageUrl = await uploadImage(uploadData);
                 data = {
-                    user: loggedUser,
+                    user: loggedUser.id,
                     newMessage,
                     imageUrl: imageUrl.data.fileUrl
                 }
             } else {
                 data = {
-                    user: loggedUser,
+                    user: loggedUser.id,
                     newMessage
                 }
             }
-            // await newPostService(data);
-            // await getPosts();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            console.log(data);
+            console.log("CREATE NEW COMMENT SERVICE");
+            await createNewComment(id, data);
+            await reloadPostInfo();
         } catch (error) {
             console.log(error);
         }
@@ -137,23 +141,33 @@ export default function Post(props) {
                     </div>
                     <hr />
                     <div className="mt-5 flex w-full flex-col justify-center justify-items-center content-center items-center">
-                        <div className="w-full flex flex-row justify-center justify-items-center content-center items-center">
-                            <input onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new comment" />
-                        </div>
-                        <div className="w-full mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
-                            <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
-                                <label for="imageUrl">
-                                    <input ref={inputFile} onChange={handleFileChange} type="file" name="imageUrl" style={{ "display": "none" }} />
-                                    <BsImageFill />
-                                </label>
+                        <form onSubmit={handleSubmit} className="w-full">
+                            <div className="w-full flex flex-row justify-center justify-items-center content-center items-center">
+                                <input onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new comment" />
                             </div>
-                            <div>
-                                <button className='self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Submit</button>
+                            <div className="w-full mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
+                                <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
+                                    <label for="imageUrl">
+                                        <input ref={inputFile} onChange={handleFileChange} type="file" name="imageUrl" style={{ "display": "none" }} />
+                                        <BsImageFill />
+                                    </label>
+                                </div>
+                                <div>
+                                    <button className='self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Submit</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-
-
+                    <hr />
+                    <div className="flex">
+                        {
+                            postInfo.comments.map((elem) => {
+                                return (<div>
+                                    <h1>{elem.message}</h1>
+                                </div>)
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </div>
