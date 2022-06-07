@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<IsPrivate><Home /></IsPrivate>} />
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
-          <Route path="/profile/:id" element={<IsPrivate><Profile /></IsPrivate>} />
+          <Route path="/profile/:username" element={<IsPrivate><Profile /></IsPrivate>} />
 
           <Route path="/post/:id" element={<IsPrivate><SinglePost /></IsPrivate>} />
 

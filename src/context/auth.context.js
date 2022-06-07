@@ -38,7 +38,7 @@ function AuthWrapper(props) {
     if (isLoggedIn === null) {
         return (
             <div className="App h-screen">
-                <div class="flex flex-col align-items-center justify-center h-screen">
+                <div className="flex flex-col align-items-center justify-center h-screen">
                     <img src="/logo.png" width={200} alt="" className="self-center mb-5" />
                     <SyncLoader color={"#ffffff"} />
                 </div>

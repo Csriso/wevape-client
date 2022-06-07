@@ -1,6 +1,6 @@
 // import { NavLink } from "react-router-dom";
 import { useContext } from 'react';
-import { AuthContext } from '../context/auth.context' 
+import { AuthContext } from '../context/auth.context'
 
 export default function TopBar() {
   const toggleStyles = (navInfo) => {
@@ -16,7 +16,7 @@ export default function TopBar() {
   };
 
   const { isLoggedIn, user, authenticateUser } = useContext(AuthContext)
-  const handleLogout =  () => {
+  const handleLogout = () => {
     localStorage.removeItem("authToken");
     authenticateUser();
   }
@@ -44,8 +44,8 @@ export default function TopBar() {
           defaultValue="Hello World"
           color="warning"
         />      */}
-        
-        <input id="search" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
+
+      <input id="search" type="text" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
     </div>
   );
 }

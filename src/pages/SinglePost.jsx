@@ -10,30 +10,38 @@ import LightBox from '../components/LightBox';
 import { getPostService, manageLikeService } from '../services/post.services';
 import { uploadImage } from '../services/util.services';
 import { createNewComment } from '../services/comment.services';
+import Comment from '../components/Comment'
+import { ClipLoader } from 'react-spinners';
+import uuid from 'react-uuid';
 
 export default function Post() {
+    // Params for postID
     const { id } = useParams();
     // States
     const [imageOpen, setImageOpen] = useState(false);
     const [likedPost, setLikedPost] = useState(false);
     const [postInfo, setPostInfo] = useState(null);
-    const [newMessage, setNewMessage] = useState(null);
+    const [newMessage, setNewMessage] = useState("");
     const [fileImage, setFileImage] = useState(null);
+    const [loading, setLoading] = useState(true);
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser } = useContext(AuthContext);
-
-    const handleNewMessageChange = (e) => { setNewMessage(e.target.value) }
+    // Handle for the Comment form
+    const handleNewMessageChange = (e) => setNewMessage(e.target.value)
 
     useEffect(() => {
         retrievePostInfo();
     }, [])
 
+    // Get the info from the postID of params
     const retrievePostInfo = async () => {
+        console.log("RetrievePostInfo");
         try {
+            setLoading(true);
             const response = await getPostService(id);
             setPostInfo(response.data);
-            console.log(response.data)
-            checkIfPostLiked();
+            checkIfPostLiked(response.data.likes);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -48,14 +56,16 @@ export default function Post() {
     };
 
     // Function to check if the post is liked by the user loggedIn
-    const checkIfPostLiked = () => {
-        if (postInfo && postInfo.likes && postInfo.likes.includes(loggedUser.id)) {
+    const checkIfPostLiked = (response) => {
+        if (response && response.includes(loggedUser.id)) {
             setLikedPost(true);
         }
     }
 
     // Refetch the post info when modified
-    const reloadPostInfo = async () => {
+    const reloadPostInfo = async (e) => {
+        console.log("RELOADPOSTINFO");
+        console.log(postInfo);
         const response = await getPostService(postInfo._id);
         setPostInfo(response.data);
     }
@@ -66,17 +76,19 @@ export default function Post() {
         setImageOpen(true);
     }
 
+
     // Function to handle the Like Button
     const handleAddLike = async (e) => {
         e.preventDefault();
+        console.log("HANDLELIKE");
         setLikedPost(!likedPost);
         await manageLikeService(postInfo._id, loggedUser);
         await reloadPostInfo();
     }
 
+    // New comment submit
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("SUMBIIIIIIIIIIIIIIT");
         try {
             let data;
             if (fileImage !== null) {
@@ -95,7 +107,6 @@ export default function Post() {
                 }
             }
             console.log(data);
-            console.log("CREATE NEW COMMENT SERVICE");
             await createNewComment(id, data);
             await reloadPostInfo();
         } catch (error) {
@@ -103,21 +114,23 @@ export default function Post() {
         }
     }
 
+    // Input File Functionality
     const inputFile = useRef(null);
     const handleFileChange = (e) => { setFileImage(e.target.files[0]); }
     const handleInputClick = (e) => { inputFile.current.click() }
 
-    if (postInfo === null) {
-        return (<div>NULL</div>)
+    // Loading
+    if (loading === true) {
+        return (<><ClipLoader color={"white"} /></>);
     }
 
     return (
         <div className="w-4/6 flex flex-col mt-6">
             <div className="flex flex-col items-center">
-                <div className='flex flex-col w-5/6 align-center justify-items-center w-[600px] justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
+                <div className='flex flex-col w-5/6 align-center justify-items-center w-[800px] justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
                     <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
-                        <Link to={`/profile/${postInfo.user._id}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
-                            <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "./defavatar.png"} width={36} alt="" srcset="" />
+                        <Link to={`/profile/${postInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
+                            <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "/defavatar.png"} width={36} alt="" srcSet="" />
                             <p className='ml-3'>@{postInfo.user.username}</p>
                         </Link>
                         <p className='justify-self-end'><FormatTime date={postInfo.createdAt} /></p>
@@ -143,28 +156,26 @@ export default function Post() {
                     <div className="mt-5 flex w-full flex-col justify-center justify-items-center content-center items-center">
                         <form onSubmit={handleSubmit} className="w-full">
                             <div className="w-full flex flex-row justify-center justify-items-center content-center items-center">
-                                <input onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new comment" />
+                                <input value={newMessage} onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new comment" />
                             </div>
                             <div className="w-full mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
                                 <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
-                                    <label for="imageUrl">
+                                    <label htmlFor="imageUrl">
                                         <input ref={inputFile} onChange={handleFileChange} type="file" name="imageUrl" style={{ "display": "none" }} />
                                         <BsImageFill />
                                     </label>
                                 </div>
                                 <div>
-                                    <button className='self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Submit</button>
+                                    <button type="submit" className='self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Submit</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <hr />
-                    <div className="flex">
+                    <div className="flex flex-col w-full">
                         {
                             postInfo.comments.map((elem) => {
-                                return (<div>
-                                    <h1>{elem.message}</h1>
-                                </div>)
+                                return (<><Comment comment={elem} /></>)
                             })
                         }
                     </div>

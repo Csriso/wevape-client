@@ -6,6 +6,7 @@ import { ClipLoader } from 'react-spinners';
 import { BsImageFill } from 'react-icons/bs'
 import { uploadImage } from '../services/util.services'
 import Post from './Post.jsx';
+import uuid from 'react-uuid';
 
 export default function Feed(props) {
 
@@ -84,7 +85,7 @@ export default function Feed(props) {
               </div>
               <div className="w-5/6 mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
                 <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
-                  <label for="imageUrl">
+                  <label htmlFor="imageUrl">
                     <input ref={inputFile} onChange={handleFileChange} type="file" name="imageUrl" style={{ "display": "none" }} />
                     <BsImageFill />
                   </label>
@@ -103,7 +104,7 @@ export default function Feed(props) {
       {/* After loading posts */}
       {
         posts !== null && posts.map(elem => {
-          return (<Post data={elem} />)
+          return (<Post data={elem} key={uuid()} />)
         })
       }
     </div >

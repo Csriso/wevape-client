@@ -7,6 +7,7 @@ import { AuthContext } from '../context/auth.context'
 import gsap from 'gsap';
 import LightBox from './LightBox';
 import { getPostService, manageLikeService } from '../services/post.services';
+import uuid from 'react-uuid'
 
 export default function Post(props) {
   // States
@@ -64,10 +65,10 @@ export default function Post(props) {
     <div className="flex flex-col items-center">
       <Link to={`/post/${postInfo._id}`}>
         {/* We have image */}
-        <div className='flex flex-col w-5/6 align-center justify-items-center w-[600px] justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
+        <div className='flex flex-col w-5/6 align-center justify-items-center w-[800px] justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
           <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
-            <Link to={`/profile/${postInfo.user._id}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
-              <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "./defavatar.png"} width={36} alt="" srcset="" />
+            <Link to={`/profile/${postInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
+              <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "./defavatar.png"} width={36} alt="" srcSet="" />
               <p className='ml-3'>@{postInfo.user.username}</p>
             </Link>
             <p className='justify-self-end'><FormatTime date={postInfo.createdAt} /></p>
