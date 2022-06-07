@@ -6,7 +6,7 @@ export default function LightBox(props) {
 
     const openStyles = {
         display: "block",
-        position: "absolute",
+        position: "fixed",
     }
 
     const closeStyles = {
@@ -18,10 +18,10 @@ export default function LightBox(props) {
         setImageOpen(false);
     }
     return (
-        <div className='bg-black z-30 h-screen fixed top-0 left-0 right-0 left-0 cursor-pointer' style={imageOpen ? openStyles : closeStyles} onClick={closeLightBox}>
-            <ImCross onClick={closeLightBox} />
-            <div className="flex flex-row justify-center align-items-center content-center">
-                <img src={imageUrl} alt="" className='h-10/12' />
+        <div className='bg-black opacity-100 z-30 w-screen h-screen fixed top-0 left-0 right-0 left-0 cursor-pointer' style={imageOpen ? openStyles : closeStyles} onClick={closeLightBox}>
+            <ImCross onClick={closeLightBox} className="opacity-100 mt-5 ml-5" />
+            <div className="flex flex-row justify-center align-items-center content-center opacity-100">
+                <img src={imageUrl} alt="" className='w-4/6 opacity-100' />
             </div>
         </div>
     )

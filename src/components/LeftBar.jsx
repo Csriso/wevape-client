@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context.js'
 import { UtilityContext } from '../context/utility.context.js'
 import { BsPlusLg } from 'react-icons/bs';
+import { AiFillHome } from 'react-icons/ai';
+import { BiWorld } from 'react-icons/bi';
 
 export default function LeftBar() {
 
@@ -11,8 +13,9 @@ export default function LeftBar() {
     const navigate = useNavigate();
     const location = useLocation();
     const changeFormVisibility = () => {
-        console.log("changeFormVisibility");
+        // console.log("changeFormVisibility");
         if (location.pathname !== "/") {
+            console.log("NAVIGATE TO HOME");
             navigate("/");
             setNewStoryForm(true);
         } else {
@@ -27,12 +30,22 @@ export default function LeftBar() {
                 <div className="flex flex-col w-full h-screen px-4 py-8 bg-black border-r dark:border-gray-600">
                     <img src="/logo.png" alt="" />
                     <div className="flex flex-col justify-between flex-1 mt-6">
-                        {/* CLICKED flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200 */}
-                        {/* NO CLICKED flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700 */}
-                        <button onClick={changeFormVisibility} className="flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200">
-                            <BsPlusLg />
-                            <span className="mx-4 font-medium">New Story</span>
-                        </button>
+                        <div className="flex flex-col ">
+                            {/* CLICKED flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200 */}
+                            {/* NO CLICKED flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform rounded-md dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700 */}
+                            <button onClick={changeFormVisibility} className="mb-5 flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200">
+                                <BsPlusLg />
+                                <span className="mx-4 font-medium">New Story</span>
+                            </button>
+                            <button onClick={() => navigate("/")} className="mb-5 flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200">
+                                <AiFillHome />
+                                <span className="mx-4 font-medium">My feed</span>
+                            </button>
+                            <button onClick={changeFormVisibility} className="mb-5 flex items-center px-4 py-2 text-gray-700 bg-gray-200 rounded-md dark:bg-gray-700 dark:text-gray-200">
+                                <BiWorld />
+                                <span className="mx-4 font-medium">Discover</span>
+                            </button>
+                        </div>
                         <div className="flex items-center px-4 -mx-2" onClick={() => { navigate("/profile"); console.log("PROFILE LINK"); }}>
                             {user && (
                                 <>

@@ -39,12 +39,23 @@ export default function Post() {
         try {
             setLoading(true);
             const response = await getPostService(id);
-            setPostInfo(response.data);
+            const orderData = orderMessagesByDate(response.data);
+            setPostInfo(orderData);
             checkIfPostLiked(response.data.likes);
             setLoading(false);
         } catch (error) {
             console.log(error);
         }
+    }
+
+    // Function to reverse the order, so comments get on ascending order by time posted.
+    const orderMessagesByDate = (data) => {
+        let commentsReversed = data.comments.reverse();
+        const returnData = {
+            ...data,
+            comments: commentsReversed,
+        }
+        return returnData;
     }
 
     // GSAP Animations
@@ -63,9 +74,8 @@ export default function Post() {
     }
 
     // Refetch the post info when modified
-    const reloadPostInfo = async (e) => {
+    const reloadPostInfo = async () => {
         console.log("RELOADPOSTINFO");
-        console.log(postInfo);
         const response = await getPostService(postInfo._id);
         setPostInfo(response.data);
     }
@@ -83,7 +93,7 @@ export default function Post() {
         console.log("HANDLELIKE");
         setLikedPost(!likedPost);
         await manageLikeService(postInfo._id, loggedUser);
-        await reloadPostInfo();
+        reloadPostInfo();
     }
 
     // New comment submit
@@ -106,9 +116,8 @@ export default function Post() {
                     newMessage
                 }
             }
-            console.log(data);
             await createNewComment(id, data);
-            await reloadPostInfo();
+            reloadPostInfo();
         } catch (error) {
             console.log(error);
         }

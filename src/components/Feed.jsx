@@ -22,7 +22,7 @@ export default function Feed(props) {
   const { user } = useContext(AuthContext)
 
   //Handlers
-  const handleNewMessageChange = (e) => { setNewMessage(e.target.value) }
+  const handleNewMessageChange = (e) => setNewMessage(e.target.value)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -65,13 +65,12 @@ export default function Feed(props) {
       const response = await getAllPostsService();
       setPosts(response.data)
     } catch (error) {
-
+      console.log(error);
     }
   }
 
   // REFs
   const inputFile = useRef(null);
-  const newStoryFormRef = useRef();
 
   return (
     <div className="w-4/6 flex flex-col">
