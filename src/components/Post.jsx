@@ -13,11 +13,13 @@ export default function Post(props) {
   // States
   const [imageOpen, setImageOpen] = useState(false);
   const [likedPost, setLikedPost] = useState(false);
+  const [myPost, setMyPost] = useState(false);
   const [postInfo, setPostInfo] = useState(props.data);
   // Using an alias to prevent using same variable 'user'
   const { user: loggedUser } = useContext(AuthContext);
 
   useEffect(() => {
+    checkIfMyPost();
     checkIfPostLiked();
   }, [])
 
@@ -37,10 +39,14 @@ export default function Post(props) {
     }
   }
 
+  const checkIfMyPost = () => {
+    if (postInfo.user._id === loggedUser.id) {
+      setMyPost(true);
+    }
+  }
   // Refetch the post info when modified
   const reloadPostInfo = async () => {
     const response = await getPostService(postInfo._id);
-    console.log(response.data);
     setPostInfo(response.data);
   }
 
@@ -54,18 +60,16 @@ export default function Post(props) {
   const handleAddLike = async (e) => {
     e.preventDefault();
     setLikedPost(!likedPost);
-    const response = await manageLikeService(postInfo._id, loggedUser);
+    await manageLikeService(postInfo._id, loggedUser);
     await reloadPostInfo();
-    console.log(response);
-    console.log("adding like");
   }
 
 
   return (
-    <div className="flex flex-col items-center">
-      <Link to={`/post/${postInfo._id}`}>
+    <div className="flex flex-col items-center w-full">
+      <Link to={`/post/${postInfo._id}`} key={uuid()} className={"flex flex-col w-10/12 align-center justify-items-center w-full justify-items-center content-center items-center align-center"}>
         {/* We have image */}
-        <div className='flex flex-col w-5/6 align-center justify-items-center w-[800px] justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
+        <div className='flex flex-col w-full align-center justify-items-center w-full justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
           <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
             <Link to={`/profile/${postInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
               <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "./defavatar.png"} width={36} alt="" srcSet="" />
@@ -85,6 +89,8 @@ export default function Post(props) {
             <p className='self-start'>{postInfo.message}</p>
             <div className='postIcons flex flex-row'>
               <FaRegComment className='text-white text-xl' onMouseEnter={onEnter} onMouseLeave={onLeave} />
+              <p className='ml-2'>{postInfo.commentCount}</p>
+
               {likedPost ? <BsHeartFill className='ml-9 text-red-600 text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} /> : <BsHeart className='ml-9 text-white text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} />}
               <p className='ml-2'>{postInfo.likeCount}</p>
               {/* {user._id !== loggedUser.id && <FaRegHeart className='ml-5 text-white text-xl' />} */}

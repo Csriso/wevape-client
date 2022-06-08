@@ -16,15 +16,15 @@ const manageLikeService = (id, user) => {
     return service.patch(`/post/${id}/manageLikes`, user);
 }
 
-// const verifyService = () => {
-//     return service.get("/auth/verify");
-// }
+const getUsernamePostsService = (username) => {
+    return service.get(`/post/${username}/user`);
+}
+
 
 export {
     getAllPostsService,
     getPostService,
     newPostService,
     manageLikeService,
-    // loginService,
-    // verifyService
+    getUsernamePostsService,
 }

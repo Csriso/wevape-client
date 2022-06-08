@@ -11,7 +11,7 @@ import uuid from 'react-uuid';
 export default function Feed(props) {
 
   // Props
-
+  const { look } = props;
   // States
   const [newMessage, setNewMessage] = useState(null);
   const [posts, setPosts] = useState(null);
@@ -62,7 +62,14 @@ export default function Feed(props) {
   // Get Posts
   const getPosts = async () => {
     try {
-      const response = await getAllPostsService();
+      let response;
+      if (look && look === "discover") {
+        console.log("discover");
+        response = await getAllPostsService();
+      } else {
+        console.log("myfeed");
+        response = await getAllPostsService();
+      }
       setPosts(response.data)
     } catch (error) {
       console.log(error);
@@ -80,7 +87,7 @@ export default function Feed(props) {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col justify-center justify-items-center content-center items-center">
               <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center">
-                <input onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new story" />
+                <input value={newMessage} onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new story" />
               </div>
               <div className="w-5/6 mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
                 <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
@@ -90,7 +97,7 @@ export default function Feed(props) {
                   </label>
                 </div>
                 <div>
-                  <button className='self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Submit</button>
+                  <button type="submit" className='self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Submit</button>
                 </div>
               </div>
             </div>

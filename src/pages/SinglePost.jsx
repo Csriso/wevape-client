@@ -73,11 +73,13 @@ export default function Post() {
         }
     }
 
+
     // Refetch the post info when modified
     const reloadPostInfo = async () => {
         console.log("RELOADPOSTINFO");
         const response = await getPostService(postInfo._id);
-        setPostInfo(response.data);
+        const orderData = orderMessagesByDate(response.data);
+        setPostInfo(orderData);
     }
 
     // LightBox open function
@@ -101,19 +103,20 @@ export default function Post() {
         e.preventDefault();
         try {
             let data;
+            const messageInputFromRef = messageInputRef.current.value;
             if (fileImage !== null) {
                 const uploadData = new FormData();
                 uploadData.append("imageUrl", fileImage);
                 const imageUrl = await uploadImage(uploadData);
                 data = {
                     user: loggedUser.id,
-                    newMessage,
+                    newMessage: messageInputFromRef,
                     imageUrl: imageUrl.data.fileUrl
                 }
             } else {
                 data = {
                     user: loggedUser.id,
-                    newMessage
+                    newMessage: messageInputFromRef,
                 }
             }
             await createNewComment(id, data);
@@ -124,6 +127,7 @@ export default function Post() {
     }
 
     // Input File Functionality
+    const messageInputRef = useRef("");
     const inputFile = useRef(null);
     const handleFileChange = (e) => { setFileImage(e.target.files[0]); }
     const handleInputClick = (e) => { inputFile.current.click() }
@@ -136,7 +140,7 @@ export default function Post() {
     return (
         <div className="w-4/6 flex flex-col mt-6">
             <div className="flex flex-col items-center">
-                <div className='flex flex-col w-5/6 align-center justify-items-center w-[800px] justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
+                <div className='flex flex-col w-5/6 align-center justify-items-center justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
                     <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
                         <Link to={`/profile/${postInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
                             <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "/defavatar.png"} width={36} alt="" srcSet="" />
@@ -156,6 +160,7 @@ export default function Post() {
                         <p className='self-start'>{postInfo.message}</p>
                         <div className='postIcons flex flex-row'>
                             <FaRegComment className='text-white text-xl' onMouseEnter={onEnter} onMouseLeave={onLeave} />
+                            <p className='ml-2'>{postInfo.commentCount}</p>
                             {likedPost ? <BsHeartFill className='ml-9 text-red-600 text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} /> : <BsHeart className='ml-9 text-white text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} />}
                             <p className='ml-2'>{postInfo.likeCount}</p>
                             {/* {user._id !== loggedUser.id && <FaRegHeart className='ml-5 text-white text-xl' />} */}
@@ -165,7 +170,7 @@ export default function Post() {
                     <div className="mt-5 flex w-full flex-col justify-center justify-items-center content-center items-center">
                         <form onSubmit={handleSubmit} className="w-full">
                             <div className="w-full flex flex-row justify-center justify-items-center content-center items-center">
-                                <input value={newMessage} onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new comment" />
+                                <input ref={messageInputRef} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new comment" />
                             </div>
                             <div className="w-full mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
                                 <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
@@ -184,7 +189,7 @@ export default function Post() {
                     <div className="flex flex-col w-full">
                         {
                             postInfo.comments.map((elem) => {
-                                return (<><Comment comment={elem} /></>)
+                                return (<><Comment comment={elem} key={uuid()} /></>)
                             })
                         }
                     </div>

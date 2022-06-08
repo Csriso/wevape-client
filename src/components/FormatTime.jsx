@@ -21,6 +21,6 @@ export default function FormatTime(props) {
         setDateFormated(difference);
     }
     return (
-        <div>{dateFormated}</div>
+        <>{dateFormated}</>
     )
 }

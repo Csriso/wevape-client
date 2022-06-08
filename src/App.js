@@ -16,6 +16,7 @@ import Login from "./pages/auth/Login";
 import IsPrivate from './components/IsPrivate'
 import LeftBar from "./components/LeftBar";
 import RightBar from "./components/RightBar";
+import Feed from "./components/Feed";
 
 function App() {
   const location = useLocation();
@@ -25,7 +26,8 @@ function App() {
         {(location.pathname !== "/login" && location.pathname !== "/signup") && <LeftBar />}
         {/* <TopBar /> */}
         <Routes>
-          <Route path="/" element={<IsPrivate><Home /></IsPrivate>} />
+          <Route path="/" element={<IsPrivate><Feed /></IsPrivate>} />
+          <Route path="/discover" element={<IsPrivate><Feed look="discover" /></IsPrivate>} />
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
           <Route path="/profile/:username" element={<IsPrivate><Profile /></IsPrivate>} />
 
