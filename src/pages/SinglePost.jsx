@@ -119,6 +119,7 @@ export default function Post() {
                     newMessage: messageInputFromRef,
                 }
             }
+            messageInputRef.current.value = "";
             await createNewComment(id, data);
             reloadPostInfo();
         } catch (error) {

@@ -56,7 +56,7 @@ export default function Login() {
                     <div className="px-4 py-2 -mx-3">
                       <div className="mx-3 text-left">
                         <span className="font-semibold text-red-500 text-red-400">Error</span>
-                        <p className="text-sm text-gray-600 text-gray-200">{error}</p>
+                        <p className="text-sm text-gray-200">{error}</p>
                       </div>
                     </div>
                   </div>
@@ -65,12 +65,12 @@ export default function Login() {
               <div className="mt-8">
                 <form onSubmit={handleLogin}>
                   <div className="flex flex-col justify-between items-start mb-2">
-                    <label htmlFor="email" className="text-left block text-sm text-gray-600 text-gray-200">Email Address</label>
+                    <label htmlFor="email" className="text-left block text-sm text-gray-200">Email Address</label>
                     <input type="email" value={email} onChange={handleEmailChange} name="email" id="email" placeholder="example@example.com" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                   </div>
                   <div className="mt-6">
                     <div className="flex justify-between items-end mb-2">
-                      <label htmlFor="password" className="text-sm text-gray-600 text-gray-200">Password</label>
+                      <label htmlFor="password" className="text-sm text-gray-200">Password</label>
                       {/* <a href="#" className="m-0 text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Forgot password?</a> */}
                     </div>
 

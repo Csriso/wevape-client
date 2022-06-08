@@ -107,20 +107,20 @@ export default function Profile() {
                         <p>Edit Profile</p>
                         <form className="w-full">
                             <div className="mt-2 w-full flex flex-row justify-center justify-items-center content-center items-center">
-                                <input type="text" name="username" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Username" />
+                                <input type="text" name="username" className="w-full py-2 pl-5 pr-4 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Username" />
                             </div>
                             <div className="mt-2 w-full flex flex-row justify-center justify-items-center content-center items-center">
-                                <input type="text" name="location" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Location" />
+                                <input type="text" name="location" className="w-full py-2 pl-5 pr-4 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Location" />
                             </div>
                             <div className="mt-2 w-full flex flex-row justify-center justify-items-center content-center items-center">
-                                <input type="text" name="description" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Description" />
+                                <input type="text" name="description" className="w-full py-2 pl-5 pr-4 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Description" />
                             </div>
                             <p>Password:</p>
                             <div className="mt-2 w-full flex flex-row justify-center justify-items-center content-center items-center">
-                                <input type="text" name="password" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Password" />
+                                <input type="text" name="password" className="w-full py-2 pl-5 pr-4 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Password" />
                             </div>
                             <div className="mt-2 w-full flex flex-row justify-center justify-items-center content-center items-center">
-                                <input type="text" name="repeatPassword" className="w-full py-2 pl-5 pr-4 text-gray-700 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Repeat Password" />
+                                <input type="text" name="repeatPassword" className="w-full py-2 pl-5 pr-4 bg-white border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Repeat Password" />
                             </div>
                             <div className="w-full mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
                                 <div>
