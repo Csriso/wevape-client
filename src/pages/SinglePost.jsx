@@ -74,9 +74,13 @@ export default function Post() {
 
     // Refetch the post info when modified
     const reloadPostInfo = async () => {
-        const response = await getPostService(postInfo._id);
-        const orderData = orderMessagesByDate(response.data);
-        setPostInfo(orderData);
+        try {
+            const response = await getPostService(postInfo._id);
+            const orderData = orderMessagesByDate(response.data);
+            setPostInfo(orderData);
+        } catch (error) {
+            navigate("/error");
+        }
     }
 
     // LightBox open function
@@ -90,7 +94,11 @@ export default function Post() {
     const handleAddLike = async (e) => {
         e.preventDefault();
         setLikedPost(!likedPost);
-        await manageLikeService(postInfo._id, loggedUser);
+        try {
+            await manageLikeService(postInfo._id, loggedUser);
+        } catch (error) {
+            navigate("/error");
+        }
         reloadPostInfo();
     }
 

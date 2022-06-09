@@ -34,10 +34,14 @@ export default function Comment(props) {
     // Get the comment info initially
     const getCommentInfo = async () => {
         setLoading(true);
-        const response = await getComment(props.comment._id);
-        const orderData = orderMessagesByDate(response.data);
-        setCommentInfo(orderData);
-        checkIfPostLiked(response.data.likes);
+        try {
+            const response = await getComment(props.comment._id);
+            const orderData = orderMessagesByDate(response.data);
+            setCommentInfo(orderData);
+            checkIfPostLiked(response.data.likes);
+        } catch (error) {
+            navigate("/error");
+        }
         setLoading(false);
     }
 
@@ -60,17 +64,25 @@ export default function Comment(props) {
     // Refetch the post info when modified
     const reloadPostInfo = async () => {
         setLoading(true);
-        const response = await getComment(commentInfo._id);
-        const orderData = orderMessagesByDate(response.data);
-        setCommentInfo(orderData);
-        checkIfPostLiked(response.data.likes);
+        try {
+            const response = await getComment(commentInfo._id);
+            const orderData = orderMessagesByDate(response.data);
+            setCommentInfo(orderData);
+            checkIfPostLiked(response.data.likes);
+        } catch (error) {
+            navigate("/error");
+        }
         setLoading(false);
     }
     // Function to handle the Like Button
     const handleAddLike = async (e) => {
         e.preventDefault();
         setLikedPost(!likedPost);
-        await manageCommentLikeService(commentInfo._id, loggedUser);
+        try {
+            await manageCommentLikeService(commentInfo._id, loggedUser);
+        } catch (error) {
+            navigate("/error");
+        }
         reloadPostInfo();
     }
     // Open lightbox

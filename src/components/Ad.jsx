@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormatTime from './FormatTime';
 import { FaRegComment } from 'react-icons/fa'
 import { BsHeartFill, BsHeart } from 'react-icons/bs'
@@ -16,8 +16,12 @@ export default function Ad(props) {
     const [likedAd, setLikedAd] = useState(false);
     const [myAd, setMyAd] = useState(false);
     const [adInfo, setAdInfo] = useState(props.data);
+
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser } = useContext(AuthContext);
+
+    // Navigate
+    const navigate = useNavigate();
 
     useEffect(() => {
         checkIfMyAd();
@@ -47,8 +51,12 @@ export default function Ad(props) {
     }
     // Refetch the ad info when modified
     const reloadAdInfo = async () => {
-        const response = await getOneAdsService(adInfo._id);
-        setAdInfo(response.data);
+        try {
+            const response = await getOneAdsService(adInfo._id);
+            setAdInfo(response.data);
+        } catch (error) {
+            navigate("/error");
+        }
     }
 
     // LightBox open function
@@ -61,7 +69,11 @@ export default function Ad(props) {
     const handleAddLike = async (e) => {
         e.preventDefault();
         setLikedAd(!likedAd);
-        await manageLikeAdService(adInfo._id, loggedUser);
+        try {
+            await manageLikeAdService(adInfo._id, loggedUser);
+        } catch (error) {
+            navigate("/error");
+        }
         reloadAdInfo();
     }
     // LOADING

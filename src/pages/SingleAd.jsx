@@ -72,9 +72,13 @@ export default function SingleAd() {
 
     // Refetch the post info when modified
     const reloadPostInfo = async () => {
-        const response = await getOneAdsService(adInfo._id);
-        const orderData = orderMessagesByDate(response.data);
-        setAdInfo(orderData);
+        try {
+            const response = await getOneAdsService(adInfo._id);
+            const orderData = orderMessagesByDate(response.data);
+            setAdInfo(orderData);
+        } catch (error) {
+            navigate("/error");
+        }
     }
 
     // LightBox open function
@@ -88,7 +92,11 @@ export default function SingleAd() {
     const handleAddLike = async (e) => {
         e.preventDefault();
         setLikedPost(!likedPost);
-        await manageLikeAdService(adInfo._id, loggedUser);
+        try {
+            await manageLikeAdService(adInfo._id, loggedUser);
+        } catch (error) {
+            navigate("/error");
+        }
         reloadPostInfo();
     }
 

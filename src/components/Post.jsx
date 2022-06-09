@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormatTime from './FormatTime';
 import { FaRegComment } from 'react-icons/fa'
 import { BsHeartFill, BsHeart } from 'react-icons/bs'
@@ -17,7 +17,7 @@ export default function Post(props) {
   const [postInfo, setPostInfo] = useState(props.data);
   // Using an alias to prevent using same variable 'user'
   const { user: loggedUser } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   useEffect(() => {
     checkIfMyPost();
     checkIfPostLiked();
@@ -46,8 +46,12 @@ export default function Post(props) {
   }
   // Refetch the post info when modified
   const reloadPostInfo = async () => {
-    const response = await getPostService(postInfo._id);
-    setPostInfo(response.data);
+    try {
+      const response = await getPostService(postInfo._id);
+      setPostInfo(response.data);
+    } catch (error) {
+      navigate("/error");
+    }
   }
 
   // LightBox open function
@@ -60,8 +64,12 @@ export default function Post(props) {
   const handleAddLike = async (e) => {
     e.preventDefault();
     setLikedPost(!likedPost);
-    await manageLikeService(postInfo._id, loggedUser);
-    await reloadPostInfo();
+    try {
+      await manageLikeService(postInfo._id, loggedUser);
+      await reloadPostInfo();
+    } catch (error) {
+      navigate("/error");
+    }
   }
 
 

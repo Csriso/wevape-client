@@ -31,7 +31,7 @@ export default function Profile() {
 
     const handleFollow = async () => {
         try {
-            const response = await followProfileService(profileInfo.username, user);
+            await followProfileService(profileInfo.username, user);
         } catch (error) {
             navigate("/error");
         }
@@ -58,11 +58,15 @@ export default function Profile() {
         }
     }
     const checkIfUserFollowed = async (userid) => {
-        const response = await getProfileService(completeUser.username);
-        if (response.data.following.includes(userid)) {
-            setFollowed(true);
-        } else {
-            setFollowed(false);
+        try {
+            const response = await getProfileService(completeUser.username);
+            if (response.data.following.includes(userid)) {
+                setFollowed(true);
+            } else {
+                setFollowed(false);
+            }
+        } catch (error) {
+            navigate("/error");
         }
     }
     const getUserPosts = async () => {
