@@ -203,7 +203,7 @@ export default function Profile() {
                         {userGroups === null && <ClipLoader color={"white"} />}
                         {userGroups && userGroups !== null && <>
                             {userGroups.map((elem) => {
-                                return (<div className='flex flex-col justify-center items-center content-center mx-3 flex-wrap'>
+                                return (<div className='flex flex-col justify-start align-items-center items-center content-center flex-wrap w-[130px]'>
                                     <img src={elem.imageUrl ? elem.imageUrl : "/group.jpg"} alt="" className='w-[96px] h-[96px] rounded-full object-cover' />
                                     <p className='mt-3 text-xl'>{elem.name}</p>
                                 </div>)

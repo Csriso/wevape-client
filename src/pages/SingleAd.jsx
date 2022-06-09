@@ -31,15 +31,18 @@ export default function SingleAd() {
     const handleNewMessageChange = (e) => setNewMessage(e.target.value)
 
     useEffect(() => {
-        retrievePostInfo();
+        retrieveAdInfo();
     }, [])
 
     // Get the info from the postID of params
-    const retrievePostInfo = async () => {
+    const retrieveAdInfo = async () => {
         console.log("RetrievePostInfo");
         try {
             setLoading(true);
+            console.log("AD SERVICE");
             const response = await getOneAdsService(id);
+            console.log("ENDAD SERVICE");
+
             console.log(response.data);
             const orderData = orderMessagesByDate(response.data);
             setAdInfo(orderData);
