@@ -18,10 +18,6 @@ export default function Feed(props) {
   const [newAdForm, setNewAdForm] = useState(false);
   //Contexts
   const { user } = useContext(AuthContext)
-  //Location
-  const location = useLocation();
-  //Navigate
-  const navigate = useNavigate();
   //Handlers
 
   // Form submit

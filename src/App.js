@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <div className="flex flex-row flex-wrap">
-        {(location.pathname !== "/login" && location.pathname !== "/signup" && location.pathname !== 'error' && location.pathname !== '/404') && <LeftBar />}
+        {(location.pathname !== "/login" && location.pathname !== "/signup" && location.pathname !== 'error' && location.pathname !== '/404' && location.pathname !== "/error") && <LeftBar />}
         {/* <TopBar /> */}
         <Routes>
           <Route path="/" key={location.pathname} element={<IsPrivate><Feed look="feed" /></IsPrivate>} />
@@ -47,7 +47,7 @@ function App() {
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        {(location.pathname !== "/login" && location.pathname !== "/signup" && location.pathname !== 'error' && location.pathname !== '/404') && <RightBar />}
+        {(location.pathname !== "/login" && location.pathname !== "/signup" && location.pathname !== 'error' && location.pathname !== '/404' && location.pathname !== "/error") && <RightBar />}
       </div>
 
     </div>

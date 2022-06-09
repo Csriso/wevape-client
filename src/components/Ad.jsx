@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import FormatTime from './FormatTime';
-import { FaRegComment, FaRegHeart } from 'react-icons/fa'
+import { FaRegComment } from 'react-icons/fa'
 import { BsHeartFill, BsHeart } from 'react-icons/bs'
 import { AuthContext } from '../context/auth.context'
 import gsap from 'gsap';
 import LightBox from './LightBox';
-import { getPostService, manageLikeService } from '../services/post.services';
 import uuid from 'react-uuid'
-import { getAdsService, getOneAdsService, manageLikeAdService } from '../services/marketplace.services';
+import { getOneAdsService, manageLikeAdService } from '../services/marketplace.services';
 import { ClipLoader } from 'react-spinners';
 
 export default function Ad(props) {
@@ -18,8 +17,6 @@ export default function Ad(props) {
     const [myAd, setMyAd] = useState(false);
     const [adInfo, setAdInfo] = useState(props.data);
     console.log(props.data);
-    const [sold, setSold] = useState(false);
-    const [reserved, setReserved] = useState(false);
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser } = useContext(AuthContext);
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import { ImCross } from 'react-icons/im'
 
 export default function LightBox(props) {
     const { imageUrl, setImageOpen, imageOpen } = props;

@@ -8,11 +8,10 @@ import { BiWorld } from 'react-icons/bi';
 import { MdSell } from 'react-icons/md';
 import { HiUserGroup } from 'react-icons/hi';
 
-import { getProfileService } from '../services/profile.services.js';
 
 export default function LeftBar() {
 
-    const { newStoryForm, setNewStoryForm, profilePic, setProfilePic } = useContext(UtilityContext)
+    const { newStoryForm, setNewStoryForm, } = useContext(UtilityContext)
     const { user, authenticateUser, completeUser } = useContext(AuthContext)
     const navigate = useNavigate();
     const location = useLocation();
