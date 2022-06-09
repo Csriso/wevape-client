@@ -47,7 +47,7 @@ function Signup() {
           <div className="flex-1">
             <div className="text-center">
               <h2 className="flex flex-row justify-center text-4xl font-bold text-center text-gray-700 text-white"><img src="logo.png" alt="" width={200} /></h2>
-              <p className="mt-3 text-gray-500 text-gray-300">Create new account</p>
+              <p className="mt-3 text-gray-300">Create new account</p>
               {error !== "" &&
                 <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md bg-gray-800 mt-5">
                   <div className="flex items-center justify-center w-12 bg-red-500">
@@ -71,27 +71,27 @@ function Signup() {
 
                   <div className="flex flex-col justify-between items-start mb-2">
                     <label htmlFor="username" className="text-left block text-sm text-gray-600 text-gray-200">Username</label>
-                    <input type="text" value={username} onChange={handleUsernameChange} name="username" id="username" placeholder="Enter username" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <input type="text" value={username} onChange={handleUsernameChange} name="username" id="username" placeholder="Enter username" className="block w-full px-4 py-2 mt-2 border rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                   </div>
                 </div>
                 <div className="mt-6">
 
                   <div className="flex flex-col justify-between items-start mb-2">
                     <label htmlFor="email" className="text-left block text-sm text-gray-600 text-gray-200">Email Address</label>
-                    <input type="email" value={email} onChange={handleEmailChange} name="email" id="email" placeholder="example@example.com" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                    <input type="email" value={email} onChange={handleEmailChange} name="email" id="email" placeholder="example@example.com" className="block w-full px-4 py-2 mt-2 border rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                   </div>
                 </div>
                 <div className="mt-6">
                   <div className="flex justify-between items-end mb-2">
                     <label htmlFor="password" className="text-sm text-gray-600 text-gray-200">Password</label>
                   </div>
-                  <input type="password" name="password" value={password} onChange={handlePasswordChange} id="password" placeholder="Your Password" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                  <input type="password" name="password" value={password} onChange={handlePasswordChange} id="password" placeholder="Your Password" className="block w-full px-4 py-2 mt-2 border rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                 </div>
                 <div className="mt-6">
                   <div className="flex justify-between items-end mb-2">
                     <label htmlFor="password" className="text-sm text-gray-600 text-gray-200">Repeat password</label>
                   </div>
-                  <input type="password" name="repeatPassword" value={repeatPassword} onChange={handleRepeatPasswordChange} id="password" placeholder="Repeat Password" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                  <input type="password" name="repeatPassword" value={repeatPassword} onChange={handleRepeatPasswordChange} id="password" placeholder="Repeat Password" className="block w-full px-4 py-2 mt-2 border rounded-md placeholder-gray-600 bg-gray-900 text-gray-300 border-gray-700 focus:border-blue-400 focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
                 </div>
 
                 <div className="mt-6">

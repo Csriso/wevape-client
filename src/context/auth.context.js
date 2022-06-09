@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react"
 import { SyncLoader } from "react-spinners"
 import { verifyService } from "../services/auth.services"
+import { getProfileByIdService } from "../services/profile.services"
 
 const AuthContext = createContext()
 
@@ -9,16 +10,19 @@ function AuthWrapper(props) {
     // todos los estados y funciones
     const [isLoggedIn, setIsLoggedIn] = useState(null)
     const [user, setUser] = useState(null)
+    const [completeUser, setCompleteUser] = useState(null)
 
 
     const authenticateUser = async () => {
         try {
             const response = await verifyService()
+            const completeUserReq = await getProfileByIdService(response.data.id);
             setIsLoggedIn(true)
             setUser(response.data);
-
+            setCompleteUser(completeUserReq.data);
         } catch (error) {
             setIsLoggedIn(false);
+            setCompleteUser("QUE COÑOOOOOOOOOOOOOOOOO");
             setUser(null);
             console.log("El usuario no tiene token o el token no es valido")
             console.log(error);
@@ -28,7 +32,8 @@ function AuthWrapper(props) {
     const passedContext = {
         isLoggedIn,
         user,
-        authenticateUser
+        authenticateUser,
+        completeUser
     }
 
     useEffect(() => {

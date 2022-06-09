@@ -39,6 +39,7 @@ export default function Post() {
         try {
             setLoading(true);
             const response = await getPostService(id);
+            console.log(response.data);
             const orderData = orderMessagesByDate(response.data);
             setPostInfo(orderData);
             checkIfPostLiked(response.data.likes);
@@ -144,7 +145,7 @@ export default function Post() {
                 <div className='flex flex-col w-5/6 align-center justify-items-center justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
                     <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
                         <Link to={`/profile/${postInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
-                            <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "/defavatar.png"} width={36} alt="" srcSet="" />
+                            <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "/defavatar.png"} width={36} alt="" srcSet="" className='rounded-full object-cover w-[36px] h-[36px]' />
                             <p className='ml-3'>@{postInfo.user.username}</p>
                         </Link>
                         <p className='justify-self-end'><FormatTime date={postInfo.createdAt} /></p>

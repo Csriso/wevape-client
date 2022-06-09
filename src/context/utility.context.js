@@ -6,10 +6,13 @@ function UtilityWrapper(props) {
 
     // todos los estados y funciones
     const [newStoryForm, setNewStoryForm] = useState(false)
+    const [profilePic, setProfilePic] = useState(false)
 
     const utilPassedContext = {
         newStoryForm,
         setNewStoryForm,
+        profilePic,
+        setProfilePic
     }
 
     return (

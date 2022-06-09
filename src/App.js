@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 // pages
 import Error from './pages/Error';
 import NotFound from './pages/NotFound';
-import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import SinglePost from './pages/SinglePost'
 
@@ -26,8 +25,8 @@ function App() {
         {(location.pathname !== "/login" && location.pathname !== "/signup") && <LeftBar />}
         {/* <TopBar /> */}
         <Routes>
-          <Route path="/" element={<IsPrivate><Feed /></IsPrivate>} />
-          <Route path="/discover" element={<IsPrivate><Feed look="discover" /></IsPrivate>} />
+          <Route path="/" key={location.pathname} element={<IsPrivate><Feed look="feed" /></IsPrivate>} />
+          <Route path="/discover" key={location.pathname} element={<IsPrivate><Feed look="discover" /></IsPrivate>} />
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
           <Route path="/profile/:username" element={<IsPrivate><Profile /></IsPrivate>} />
 

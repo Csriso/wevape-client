@@ -10,15 +10,20 @@ export default function FormatTime(props) {
     }, [])
 
     const formatDate = () => {
-        // We split mongoDB default format - 2022-06-03T12:55:00.452Z
-        const dateArr = date.split('T');
-        // We take the hours
-        const dateHour = dateArr[1].split('.');
-        // Take the year-month-day and we took out the '-' chars      
-        const dateCorrected = dateArr[0].split('-').join('') + dateHour[0];
-        // We calculate the difference with the help of momentJS
-        const difference = moment(dateCorrected, "YYYYMMDDHH:mm:ss").from(moment.utc().subtract(2, 'hours'));
-        setDateFormated(difference);
+        if (date) {
+            // We split mongoDB default format - 2022-06-03T12:55:00.452Z
+            const dateArr = date.split('T');
+            // We take the hours
+            const dateHour = dateArr[1].split('.');
+            // Take the year-month-day and we took out the '-' chars      
+            const dateCorrected = dateArr[0].split('-').join('') + dateHour[0];
+            // We calculate the difference with the help of momentJS
+            const difference = moment(dateCorrected, "YYYYMMDDHH:mm:ss").from(moment.utc().subtract(2, 'hours'));
+            setDateFormated(difference);
+        } else {
+
+        }
+
     }
     return (
         <>{dateFormated}</>

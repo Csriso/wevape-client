@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { UtilityContext } from '../context/utility.context.js'
-import { newPostService, getAllPostsService } from '../services/post.services'
+import { newPostService, getAllPostsService, getFeedPostsService } from '../services/post.services'
 import { AuthContext } from '../context/auth.context'
 import { ClipLoader } from 'react-spinners';
 import { BsImageFill } from 'react-icons/bs'
 import { uploadImage } from '../services/util.services'
 import Post from './Post.jsx';
 import uuid from 'react-uuid';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Feed(props) {
 
@@ -20,9 +21,14 @@ export default function Feed(props) {
   //Contexts
   const { newStoryForm, setNewStoryForm } = useContext(UtilityContext)
   const { user } = useContext(AuthContext)
-
+  //Location
+  const location = useLocation();
+  //Navigate
+  const navigate = useNavigate();
   //Handlers
   const handleNewMessageChange = (e) => setNewMessage(e.target.value)
+
+  // Form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -51,6 +57,7 @@ export default function Feed(props) {
     }
   }
 
+  // File input change / click
   const handleFileChange = (e) => { setFileImage(e.target.files[0]); }
   const handleInputClick = (e) => { inputFile.current.click() }
 
@@ -58,6 +65,11 @@ export default function Feed(props) {
   useEffect(() => {
     getPosts();
   }, [])
+
+  // We use one useEffect with the location as dependency, so each time we move between "/" and "/discover" it causes a re-render
+  useEffect(() => {
+    getPosts();
+  }, [location])
 
   // Get Posts
   const getPosts = async () => {
@@ -68,7 +80,8 @@ export default function Feed(props) {
         response = await getAllPostsService();
       } else {
         console.log("myfeed");
-        response = await getAllPostsService();
+        response = await getFeedPostsService(user.id);
+        console.log(response.data);
       }
       setPosts(response.data)
     } catch (error) {
@@ -79,11 +92,12 @@ export default function Feed(props) {
   // REFs
   const inputFile = useRef(null);
 
+  // Render
   return (
     <div className="w-4/6 flex flex-col">
       {/* Add story form */}
       {newStoryForm &&
-        <div style={{ width: "inherit" }} className='fixed top-0 w-auto bg-black pt-5 mb-5 flex flex-col justify-center justify-items-center content-center px-5 border-b border-gray-600'>
+        <div style={{ width: "inherit" }} className='fixed z-20 top-0 w-auto bg-black pt-5 mb-5 flex flex-col justify-center justify-items-center content-center px-5 border-b border-gray-600'>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col justify-center justify-items-center content-center items-center">
               <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center">
@@ -105,11 +119,19 @@ export default function Feed(props) {
           <br />
         </div>
       }
+
       {/* Loading posts */}
       {posts === null && <ClipLoader />}
+      {/* We do this if user has no people following */}
+      {(posts && posts.errorMessage === "User is following anyone.") &&
+        (<div className='flex flex-col justify-center justify-items-center content-center items-center w-full h-full mt-12'>
+          <p>You dont follow anyone, follow someone to see your feed.</p>
+          <button onClick={() => navigate("/discover")} type="submit" className='mt-8 z-0 self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Discover new people</button>
+        </div>)
+      }
       {/* After loading posts */}
       {
-        posts !== null && posts.map(elem => {
+        (posts !== null && !posts.errorMessage) && posts.map(elem => {
           return (<Post data={elem} key={uuid()} />)
         })
       }

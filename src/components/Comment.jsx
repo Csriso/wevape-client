@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners';
-import { createNewCommentOfComment, getComment, manageCommentLikeService } from '../services/comment.services';
+import { createNewCommentOfComment, getComment, manageCommentLikeService, removeCommentService } from '../services/comment.services';
 import FormatTime from './FormatTime'
-import { FaRegComment } from 'react-icons/fa'
+import { FaRegComment, FaTrash } from 'react-icons/fa'
 import { BsHeartFill, BsHeart } from 'react-icons/bs'
 import { BsImageFill } from 'react-icons/bs'
 import gsap from 'gsap';
@@ -103,6 +103,15 @@ export default function Comment(props) {
         }
     }
 
+    const removeComment = async () => {
+        try {
+            await removeCommentService(commentInfo._id, loggedUser);
+            gsap.to(commentRef.current, { opacity: "0", display: "none" });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     // GSAP Animations
     const onEnter = ({ currentTarget }) => {
         gsap.to(currentTarget, { scale: 1.3 });
@@ -111,23 +120,25 @@ export default function Comment(props) {
         gsap.to(currentTarget, { scale: 1 });
     };
 
-    // Input File Functionality
+    // Ref for inputs, so we dont re-render all the component
     const messageInputRef = useRef("");
+    const commentRef = useRef();
+    // Input File Functionality
     const inputFile = useRef(null);
-    const handleFileChange = (e) => { setFileImage(e.target.files[0]); }
-    const handleInputClick = (e) => { inputFile.current.click() }
+    const handleFileChange = (e) => setFileImage(e.target.files[0])
+    const handleInputClick = (e) => inputFile.current.click()
 
     if (loading === true) {
         return (<><ClipLoader color={"white"} /></>);
     }
 
     return (
-        <div className='flex flex-col w-full flex-col justify-end justify-items-center content-center items-end mt-4'>
+        <div className='flex flex-col w-full flex-col justify-end justify-items-center content-center items-end mt-4' ref={commentRef}>
             <div className="flex flex-col items-center w-[99%] border border-gray-900 rounded-xl p-5">
                 <div className='flex flex-col w-[99%] min-w-[400px] align-center justify-items-center justify-items-center content-center items-center align-center rounded-xl p-3 pr-0'>
                     <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
                         <Link to={`/profile/${commentInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
-                            <img src={commentInfo.user.imageUrl ? commentInfo.user.imageUrl : "/defavatar.png"} width={36} alt="" srcSet="" />
+                            <img src={commentInfo.user.imageUrl ? commentInfo.user.imageUrl : "/defavatar.png"} width={36} alt="" srcSet="" className='rounded-full w-[36px] h-[36px] rounded-full object-cover' />
                             <p className='ml-3'>@{commentInfo.user.username}</p>
                         </Link>
                         <p className='justify-self-end'><FormatTime date={commentInfo.createdAt} /></p>
@@ -143,6 +154,7 @@ export default function Comment(props) {
                     <div className="flex flex-row justify-between mt-5 w-full">
                         <p className='self-start'>{commentInfo.message}</p>
                         <div className='postIcons flex flex-row'>
+                            {loggedUser.id === commentInfo.user._id && <FaTrash className='hover:text-red-600 mr-9' size={20} onClick={removeComment} />}
                             <FaRegComment className='text-white text-xl' onClick={handleAddCommentInputShow} onMouseEnter={onEnter} onMouseLeave={onLeave} />
                             <p className='ml-2'>{commentInfo.commentCount}</p>
                             {likedPost ? <BsHeartFill className='ml-9 text-red-600 text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} /> : <BsHeart className='ml-9 text-white text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} />}

@@ -3,7 +3,9 @@ import service from "./config.services";
 const getAllPostsService = () => {
     return service.get("/post")
 }
-
+const getFeedPostsService = (userId) => {
+    return service.get(`/post/${userId}/myfeed`)
+}
 const getPostService = (id) => {
     return service.get(`/post/${id}`);
 }
@@ -21,7 +23,10 @@ const getUsernamePostsService = (username) => {
 }
 
 
+
+
 export {
+    getFeedPostsService,
     getAllPostsService,
     getPostService,
     newPostService,

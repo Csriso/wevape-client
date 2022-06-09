@@ -38,7 +38,7 @@ export default function Post(props) {
       setLikedPost(true);
     }
   }
-
+  // Check if the post is mine
   const checkIfMyPost = () => {
     if (postInfo.user._id === loggedUser.id) {
       setMyPost(true);
@@ -72,7 +72,7 @@ export default function Post(props) {
         <div className='flex flex-col w-full align-center justify-items-center w-full justify-items-center content-center items-center align-center rounded-xl border border-gray-700 p-7'>
           <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
             <Link to={`/profile/${postInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">
-              <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "./defavatar.png"} width={36} alt="" srcSet="" />
+              <img src={postInfo.user.imageUrl ? postInfo.user.imageUrl : "./defavatar.png"} width={36} alt="" srcSet="" className='rounded-full w-[36px] h-[36px] rounded-full object-cover' />
               <p className='ml-3'>@{postInfo.user.username}</p>
             </Link>
             <p className='justify-self-end'><FormatTime date={postInfo.createdAt} /></p>

@@ -12,9 +12,15 @@ const createNewCommentOfComment = (idComment, comment) => {
 const manageCommentLikeService = (id, user) => {
     return service.patch(`/comment/${id}/manageLikes`, user);
 }
+
+const removeCommentService = (id, user) => {
+    return service.delete(`/comment/${id}`, user);
+}
+
 export {
     createNewComment,
     getComment,
     createNewCommentOfComment,
-    manageCommentLikeService
+    manageCommentLikeService,
+    removeCommentService
 }   
