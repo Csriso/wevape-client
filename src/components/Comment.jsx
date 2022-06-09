@@ -147,7 +147,9 @@ export default function Comment(props) {
                     {commentInfo.imageUrl !== undefined &&
                         <>
                             <div className="flex flex-col justify-items-center content-center items-center align-center mt-5">
-                                <img src={commentInfo.imageUrl} width={600} alt="" onClick={handleClickImageOpen} className='justify-self-center self-center rounded-3xl' />
+                                {!commentInfo.deleted &&
+                                    <img src={commentInfo.imageUrl} width={600} alt="" onClick={handleClickImageOpen} className='justify-self-center self-center rounded-3xl' />
+                                }
                             </div>
                             <LightBox imageUrl={commentInfo.imageUrl} setImageOpen={setImageOpen} imageOpen={imageOpen} />
                         </>
@@ -159,16 +161,11 @@ export default function Comment(props) {
                             <FaRegComment className='text-white text-xl' onClick={handleAddCommentInputShow} onMouseEnter={onEnter} onMouseLeave={onLeave} />
                             <p className='ml-2'>{commentInfo.commentCount}</p>
                             {likedPost ? <BsHeartFill className='ml-9 text-red-600 text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} /> : <BsHeart className='ml-9 text-white text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} />}
-
                             <p className='ml-2'>{commentInfo.likeCount}</p>
-                            {/* {user._id !== loggedUser.id && <FaRegHeart className='ml-5 text-white text-xl' />} */}
                         </div>
                     </div>
                     <hr />
                     {addCommentInput &&
-                        // <NewCommentForm handleSubmit={handleSubmit} newMessage={newMessage}
-                        //     handleNewMessageChange={handleNewMessageChange} handleInputClick={handleInputClick}
-                        //     inputFile={inputFile} handleFileChange={handleFileChange} />
                         <div className="flex flex-col w-full">
                             <form onSubmit={handleSubmit} className="w-full">
                                 <div className="w-full flex flex-row justify-center justify-items-center content-center items-center">

@@ -17,6 +17,7 @@ import IsPrivate from './components/IsPrivate'
 import LeftBar from "./components/LeftBar";
 import RightBar from "./components/RightBar";
 import Feed from "./components/Feed";
+import SingleAd from "./pages/SingleAd";
 
 function App() {
   const location = useLocation();
@@ -28,10 +29,11 @@ function App() {
         <Routes>
           <Route path="/" key={location.pathname} element={<IsPrivate><Feed look="feed" /></IsPrivate>} />
           <Route path="/discover" key={location.pathname} element={<IsPrivate><Feed look="discover" /></IsPrivate>} />
-          <Route path="/marketplace" key={location.pathname} element={<IsPrivate><MarketPlace /></IsPrivate>} />
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
           <Route path="/profile/:username" element={<IsPrivate><Profile /></IsPrivate>} />
 
+          <Route path="/marketplace" key={location.pathname} element={<IsPrivate><MarketPlace /></IsPrivate>} />
+          <Route path="/marketplace/:id" key={location.pathname} element={<IsPrivate><SingleAd /></IsPrivate>} />
           <Route path="/post/:id" element={<IsPrivate><SinglePost /></IsPrivate>} />
 
           <Route path="/signup" element={<Signup />} />

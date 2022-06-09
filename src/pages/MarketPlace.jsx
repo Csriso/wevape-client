@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { UtilityContext } from '../context/utility.context.js'
-import { newPostService, getAllPostsService, getFeedPostsService } from '../services/post.services'
 import { AuthContext } from '../context/auth.context'
 import { ClipLoader } from 'react-spinners';
 import { BsImageFill } from 'react-icons/bs'
 import { uploadImage } from '../services/util.services'
 import { ImCross } from 'react-icons/im'
-import Post from '../components/Post';
 import uuid from 'react-uuid';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { createNewAdService, getAdsService } from '../services/marketplace.services.js';
 import gsap from 'gsap';
+import Ad from '../components/Ad.jsx';
 export default function Feed(props) {
 
   // States
-  const [newMessage, setNewMessage] = useState(null);
   const [ads, setAds] = useState(null);
   const [fileImage, setFileImage] = useState(null);
   const [newAdForm, setNewAdForm] = useState(false);
@@ -25,7 +23,6 @@ export default function Feed(props) {
   //Navigate
   const navigate = useNavigate();
   //Handlers
-  const handleNewMessageChange = (e) => setNewMessage(e.target.value)
 
   // Form submit
   const handleSubmit = async (e) => {
@@ -38,14 +35,16 @@ export default function Feed(props) {
         const imageUrl = await uploadImage(uploadData);
         data = {
           user,
-          newMessage: messageRef.current.value,
+          product: productRef.current.value,
+          message: descriptionRef.current.value,
           imageUrl: imageUrl.data.fileUrl,
           price: priceRef.current.value,
         }
       } else {
         data = {
           user,
-          newMessage: messageRef.current.value,
+          product: productRef.current.value,
+          message: descriptionRef.current.value,
           price: priceRef.current.value,
         }
       }
@@ -89,7 +88,8 @@ export default function Feed(props) {
 
   // REFs
   const inputFile = useRef(null);
-  const messageRef = useRef(null);
+  const productRef = useRef(null);
+  const descriptionRef = useRef(null);
   const priceRef = useRef(null);
 
   // Render
@@ -104,7 +104,10 @@ export default function Feed(props) {
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col justify-center justify-items-center content-center items-center">
               <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center">
-                <input ref={messageRef} type="text" name="message" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Enter message" />
+                <input ref={productRef} type="text" name="product" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Enter product you're selling" />
+              </div>
+              <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center mt-5">
+                <input ref={descriptionRef} type="text" name="description" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Enter description of the product" />
               </div>
               <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center mt-5">
                 <input ref={priceRef} type="text" name="price" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Enter price" />
@@ -138,7 +141,7 @@ export default function Feed(props) {
       {/* After loading posts */}
       {
         (ads !== null && !ads.errorMessage) && ads.map(elem => {
-          return (<Post data={elem} key={uuid()} />)
+          return (<Ad data={elem} key={uuid()} />)
         })
       }
     </div >
