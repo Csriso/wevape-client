@@ -1,9 +1,8 @@
-function NotFound() {
-  return (
-    <div>
-      <h3>Error 404. Pagina no encontrada :(</h3>
-    </div>
-  );
+import react from 'react'
+import { Navigate } from 'react-router-dom';
+export default function NotFound() {
+    return (
+        <Navigate to="/404"></Navigate>
+    );
 }
 
-export default NotFound;

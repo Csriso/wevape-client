@@ -17,6 +17,9 @@ export default function Ad(props) {
     const [likedAd, setLikedAd] = useState(false);
     const [myAd, setMyAd] = useState(false);
     const [adInfo, setAdInfo] = useState(props.data);
+    console.log(props.data);
+    const [sold, setSold] = useState(false);
+    const [reserved, setReserved] = useState(false);
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser } = useContext(AuthContext);
 

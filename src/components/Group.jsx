@@ -16,7 +16,6 @@ export default function Group(props) {
     const { user: loggedUser, completeUser } = useContext(AuthContext);
 
     useEffect(() => {
-        reloadGroup();
         checkIfImJoined();
     }, [])
 

@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 // pages
 import Error from './pages/Error';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/NotFoundRedirect';
 import Profile from "./pages/Profile";
 import SinglePost from './pages/SinglePost'
 import MarketPlace from './pages/MarketPlace'
@@ -22,10 +22,11 @@ import Groups from "./pages/Groups";
 
 function App() {
   const location = useLocation();
+  console.log(location.pathname);
   return (
     <div className="App">
       <div className="flex flex-row flex-wrap">
-        {(location.pathname !== "/login" && location.pathname !== "/signup") && <LeftBar />}
+        {(location.pathname !== "/login" && location.pathname !== "/signup" && location.pathname !== 'error' && location.pathname !== '/404') && <LeftBar />}
         {/* <TopBar /> */}
         <Routes>
           <Route path="/" key={location.pathname} element={<IsPrivate><Feed look="feed" /></IsPrivate>} />
@@ -46,7 +47,7 @@ function App() {
           <Route path="/error" element={<Error />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        {(location.pathname !== "/login" && location.pathname !== "/signup") && <RightBar />}
+        {(location.pathname !== "/login" && location.pathname !== "/signup" && location.pathname !== 'error' && location.pathname !== '/404') && <RightBar />}
       </div>
 
     </div>

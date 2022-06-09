@@ -1,0 +1,13 @@
+/* layout/base.css */
+
+body {
+  margin: 0;
+}
+
+/* modules/canvas.css */
+
+canvas {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
