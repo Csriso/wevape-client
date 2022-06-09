@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/auth.context.js'
 import { UtilityContext } from '../context/utility.context.js'
@@ -6,6 +6,8 @@ import { BsPlusLg } from 'react-icons/bs';
 import { AiFillHome } from 'react-icons/ai';
 import { BiWorld } from 'react-icons/bi';
 import { MdSell } from 'react-icons/md';
+import { HiUserGroup } from 'react-icons/hi';
+
 import { getProfileService } from '../services/profile.services.js';
 
 export default function LeftBar() {
@@ -52,6 +54,10 @@ export default function LeftBar() {
                             <button onClick={() => { navigate("/marketplace"); setNewStoryForm(false) }} className="mb-5 flex items-center px-4 py-2 text-gray-700 hover:bg-gray-700 rounded-md text-gray-200">
                                 <MdSell />
                                 <span className="mx-4 font-medium">Marketplace</span>
+                            </button>
+                            <button onClick={() => { navigate("/groups"); setNewStoryForm(false) }} className="mb-5 flex items-center px-4 py-2 text-gray-700 hover:bg-gray-700 rounded-md text-gray-200">
+                                <HiUserGroup />
+                                <span className="mx-4 font-medium">Groups</span>
                             </button>
                         </div>
                         <div className="flex flex-row justify-between items-center px-4 -mx-2">

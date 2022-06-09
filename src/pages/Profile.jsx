@@ -6,6 +6,7 @@ import FormatTime from '../components/FormatTime';
 import Post from '../components/Post';
 import { AuthContext } from '../context/auth.context';
 import { UtilityContext } from '../context/utility.context';
+import { getAllUserGroups } from '../services/groups.services';
 import { getUsernamePostsService } from '../services/post.services';
 import { avatarUpdate, followProfileService, getProfileService, profileUpdateService } from '../services/profile.services';
 import { uploadImage } from '../services/util.services';
@@ -18,6 +19,7 @@ export default function Profile() {
     const [followed, setFollowed] = useState(false);
     const [fileImage, setFileImage] = useState(null);
     const [submitingImage, setSubmitingImage] = useState(false);
+    const [userGroups, setUserGroups] = useState(null);
 
     const { setProfilePic } = useContext(UtilityContext)
 
@@ -101,9 +103,20 @@ export default function Profile() {
         setEditForm(formCopy);
     }
 
+    const getUserGroups = async () => {
+        try {
+            const response = await getAllUserGroups(completeUser._id);
+            console.log(response.data);
+            setUserGroups(response.data.groups);
+        } catch (error) {
+
+        }
+    }
+
     useEffect(() => {
         getProfileInfo();
         getUserPosts();
+        getUserGroups();
     }, [])
 
     // Input File Functionality
@@ -184,10 +197,24 @@ export default function Profile() {
                         </form>
                     </div>
                 }
+                <div className="flex flex-col w-full mb-12">
+                    <p className='text-bold text-2xl'>@{profileInfo.username} groups</p>
+                    <div className="flex flex-row justify-center pt-8">
+                        {userGroups === null && <ClipLoader color={"white"} />}
+                        {userGroups && userGroups !== null && <>
+                            {userGroups.map((elem) => {
+                                return (<div className='flex flex-col justify-center items-center content-center mx-3 flex-wrap'>
+                                    <img src={elem.imageUrl ? elem.imageUrl : "/group.jpg"} alt="" className='w-[96px] h-[96px] rounded-full object-cover' />
+                                    <p className='mt-3 text-xl'>{elem.name}</p>
+                                </div>)
+                            })}
+                        </>}
+                    </div>
+                </div>
+
                 <div className="flex flex-col w-full">
                     <p className='text-bold text-2xl'>User Posts</p>
                     <div className='flex flex-col align-center justify-items-center justify-items-center content-center items-center align-center'>
-                        {console.log(userPosts)}
                         {userPosts === null && <ClipLoader color={"white"} />}
                         {userPosts && userPosts !== null && userPosts.length === 0 &&
                             <div className='flex flex-col w-full align-center justify-items-center justify-items-center content-center items-center align-center mb-5'>

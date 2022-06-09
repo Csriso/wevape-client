@@ -129,13 +129,16 @@ export default function Comment(props) {
     const handleFileChange = (e) => setFileImage(e.target.files[0])
     const handleInputClick = (e) => inputFile.current.click()
 
+    const normalStyle = "flex flex-col items-center w-[99%] border border-gray-900 rounded-xl p-5";
+    const removedStyle = "flex flex-col items-center w-[99%] border border-orange-900/[.35] rounded-xl p-5"
+
     if (loading === true) {
         return (<><ClipLoader color={"white"} /></>);
     }
 
     return (
         <div className='flex flex-col w-full flex-col justify-end justify-items-center content-center items-end mt-4' ref={commentRef}>
-            <div className="flex flex-col items-center w-[99%] border border-gray-900 rounded-xl p-5">
+            <div className={commentInfo.deleted ? removedStyle : normalStyle}>
                 <div className='flex flex-col w-[99%] min-w-[400px] align-center justify-items-center justify-items-center content-center items-center align-center rounded-xl p-3 pr-0'>
                     <div className="flex flex-row self-start justify-between justify-items-center content-center items-center align-center w-full">
                         <Link to={`/profile/${commentInfo.user.username}`} className="flex flex-row justify-start justify-items-center content-center items-center align-center m-0">

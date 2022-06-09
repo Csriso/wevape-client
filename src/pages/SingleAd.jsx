@@ -160,10 +160,13 @@ export default function SingleAd() {
                         </>
                     }
                     <div className="flex flex-row justify-between mt-5 w-full">
-                        <p className='self-start'>{adInfo.product}</p>
+                        <p className='self-start'>Selling product: <span className='text-bold text-xl'>{adInfo.product}</span></p>
                     </div>
                     <div className="flex flex-row justify-between mt-5 w-full">
-                        <p className='self-start'>{adInfo.message}</p>
+                        <p className='self-start'>Description and state of the product: <span className='text-bold text-xl'>{adInfo.message}</span></p>
+                    </div>
+                    <div className="flex flex-row justify-between mt-5 w-full">
+                        <p className='self-start'>Final price: <span className='text-bold text-xl'>{adInfo.price}€</span></p>
                         <div className='postIcons flex flex-row'>
                             <FaRegComment className='text-white text-xl' onMouseEnter={onEnter} onMouseLeave={onLeave} />
                             <p className='ml-2'>{adInfo.commentCount}</p>
