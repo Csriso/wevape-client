@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import FormatTime from './FormatTime';
-import { FaRegComment, FaRegHeart } from 'react-icons/fa'
+import { FaRegComment } from 'react-icons/fa'
 import { BsHeartFill, BsHeart } from 'react-icons/bs'
 import { AuthContext } from '../context/auth.context'
 import gsap from 'gsap';

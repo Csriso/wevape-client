@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import FormatTime from '../components/FormatTime';
-import { FaRegComment, FaRegHeart } from 'react-icons/fa'
+import { FaRegComment } from 'react-icons/fa'
 import { BsHeartFill, BsHeart } from 'react-icons/bs'
 import { AuthContext } from '../context/auth.context'
 import gsap from 'gsap';
@@ -21,13 +21,12 @@ export default function Post() {
     const [imageOpen, setImageOpen] = useState(false);
     const [likedPost, setLikedPost] = useState(false);
     const [postInfo, setPostInfo] = useState(null);
-    const [newMessage, setNewMessage] = useState("");
     const [fileImage, setFileImage] = useState(null);
     const [loading, setLoading] = useState(true);
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser } = useContext(AuthContext);
-    // Handle for the Comment form
-    const handleNewMessageChange = (e) => setNewMessage(e.target.value)
+    // Navigate
+    const navigate = useNavigate();
 
     useEffect(() => {
         retrievePostInfo();
@@ -35,17 +34,15 @@ export default function Post() {
 
     // Get the info from the postID of params
     const retrievePostInfo = async () => {
-        console.log("RetrievePostInfo");
         try {
             setLoading(true);
             const response = await getPostService(id);
-            console.log(response.data);
             const orderData = orderMessagesByDate(response.data);
             setPostInfo(orderData);
             checkIfPostLiked(response.data.likes);
             setLoading(false);
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 
@@ -77,7 +74,6 @@ export default function Post() {
 
     // Refetch the post info when modified
     const reloadPostInfo = async () => {
-        console.log("RELOADPOSTINFO");
         const response = await getPostService(postInfo._id);
         const orderData = orderMessagesByDate(response.data);
         setPostInfo(orderData);
@@ -93,7 +89,6 @@ export default function Post() {
     // Function to handle the Like Button
     const handleAddLike = async (e) => {
         e.preventDefault();
-        console.log("HANDLELIKE");
         setLikedPost(!likedPost);
         await manageLikeService(postInfo._id, loggedUser);
         reloadPostInfo();
@@ -124,7 +119,7 @@ export default function Post() {
             await createNewComment(id, data);
             reloadPostInfo();
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 

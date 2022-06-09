@@ -22,7 +22,6 @@ import Groups from "./pages/Groups";
 
 function App() {
   const location = useLocation();
-  console.log(location.pathname);
   return (
     <div className="App">
       <div className="flex flex-row flex-wrap">

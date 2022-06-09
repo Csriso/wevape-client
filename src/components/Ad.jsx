@@ -16,7 +16,6 @@ export default function Ad(props) {
     const [likedAd, setLikedAd] = useState(false);
     const [myAd, setMyAd] = useState(false);
     const [adInfo, setAdInfo] = useState(props.data);
-    console.log(props.data);
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser } = useContext(AuthContext);
 
@@ -49,7 +48,6 @@ export default function Ad(props) {
     // Refetch the ad info when modified
     const reloadAdInfo = async () => {
         const response = await getOneAdsService(adInfo._id);
-        console.log("RELOAD INFO", response);
         setAdInfo(response.data);
     }
 

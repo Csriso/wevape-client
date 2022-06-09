@@ -1,53 +1,34 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
 import FormatTime from './FormatTime';
 import { AuthContext } from '../context/auth.context'
-import gsap from 'gsap';
-import LightBox from './LightBox';
 import uuid from 'react-uuid'
-import { getGroupService, joinGroupService } from '../services/groups.services';
+import { joinGroupService } from '../services/groups.services';
+import { useNavigate } from 'react-router-dom';
 
 export default function Group(props) {
     // States
-    const [imageOpen, setImageOpen] = useState(false);
     const [groupInfo, setGroupInfo] = useState(props.data);
     const [imJoined, setImJoined] = useState(false);
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser, completeUser } = useContext(AuthContext);
+    const navigate = useNavigate()
 
     useEffect(() => {
         checkIfImJoined();
     }, [])
 
     const checkIfImJoined = () => {
-        console.log("CHECK IF IM JOIN", completeUser.groups.includes(groupInfo._id));
         if (completeUser.groups.includes(groupInfo._id)) {
             setImJoined(true);
         }
     }
-    // GSAP Animations
-    const onEnter = ({ currentTarget }) => {
-        gsap.to(currentTarget, { scale: 1.3 });
-    };
-    const onLeave = ({ currentTarget }) => {
-        gsap.to(currentTarget, { scale: 1 });
-    };
 
     const joinGroup = async () => {
         try {
             await joinGroupService(groupInfo._id, completeUser);
             setImJoined(!imJoined);
         } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const reloadGroup = async () => {
-        try {
-            const response = await getGroupService(groupInfo._id);
-            setGroupInfo(response.data);
-        } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 

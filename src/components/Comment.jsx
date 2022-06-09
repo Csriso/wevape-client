@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners';
 import { createNewCommentOfComment, getComment, manageCommentLikeService, removeCommentService } from '../services/comment.services';
 import FormatTime from './FormatTime'
@@ -13,6 +13,8 @@ import uuid from 'react-uuid';
 import LightBox from './LightBox';
 
 export default function Comment(props) {
+
+    //States
     const [commentInfo, setCommentInfo] = useState(props.comment);
     const [loading, setLoading] = useState(true);
     const [addCommentInput, setAddCommentInput] = useState(false);
@@ -21,12 +23,15 @@ export default function Comment(props) {
     const [imageOpen, setImageOpen] = useState(false);
     const { user: loggedUser } = useContext(AuthContext);
 
+    const navigate = useNavigate();
+
     const handleAddCommentInputShow = (e) => setAddCommentInput(!addCommentInput)
 
     useEffect(() => {
         getCommentInfo();
     }, [])
 
+    // Get the comment info initially
     const getCommentInfo = async () => {
         setLoading(true);
         const response = await getComment(props.comment._id);
@@ -99,7 +104,7 @@ export default function Comment(props) {
             messageInputRef.current.value = "";
             reloadPostInfo();
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 
@@ -109,7 +114,7 @@ export default function Comment(props) {
             reloadPostInfo();
             // gsap.to(commentRef.current, { opacity: "0", display: "none" });
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 

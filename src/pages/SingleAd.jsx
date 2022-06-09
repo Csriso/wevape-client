@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import FormatTime from '../components/FormatTime';
-import { FaRegComment, FaRegHeart } from 'react-icons/fa'
+import { FaRegComment } from 'react-icons/fa'
 import { BsHeartFill, BsHeart } from 'react-icons/bs'
 import { AuthContext } from '../context/auth.context'
 import gsap from 'gsap';
 import { BsImageFill } from 'react-icons/bs'
 import LightBox from '../components/LightBox';
-import { getPostService, manageLikeService } from '../services/post.services';
 import { uploadImage } from '../services/util.services';
-import { createNewComment } from '../services/comment.services';
 import Comment from '../components/Comment'
 import { ClipLoader } from 'react-spinners';
 import uuid from 'react-uuid';
@@ -22,34 +20,27 @@ export default function SingleAd() {
     const [imageOpen, setImageOpen] = useState(false);
     const [likedPost, setLikedPost] = useState(false);
     const [adInfo, setAdInfo] = useState(null);
-    const [newMessage, setNewMessage] = useState("");
     const [fileImage, setFileImage] = useState(null);
     const [loading, setLoading] = useState(true);
     // Using an alias to prevent using same variable 'user'
     const { user: loggedUser } = useContext(AuthContext);
-    // Handle for the Comment form
-    const handleNewMessageChange = (e) => setNewMessage(e.target.value)
-
+    // Navigate
+    const navigate = useNavigate()
     useEffect(() => {
         retrieveAdInfo();
     }, [])
 
     // Get the info from the postID of params
     const retrieveAdInfo = async () => {
-        console.log("RetrievePostInfo");
         try {
             setLoading(true);
-            console.log("AD SERVICE");
             const response = await getOneAdsService(id);
-            console.log("ENDAD SERVICE");
-
-            console.log(response.data);
             const orderData = orderMessagesByDate(response.data);
             setAdInfo(orderData);
             checkIfPostLiked(response.data.likes);
             setLoading(false);
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 
@@ -81,7 +72,6 @@ export default function SingleAd() {
 
     // Refetch the post info when modified
     const reloadPostInfo = async () => {
-        console.log("RELOADPOSTINFO");
         const response = await getOneAdsService(adInfo._id);
         const orderData = orderMessagesByDate(response.data);
         setAdInfo(orderData);
@@ -97,7 +87,6 @@ export default function SingleAd() {
     // Function to handle the Like Button
     const handleAddLike = async (e) => {
         e.preventDefault();
-        console.log("HANDLELIKE");
         setLikedPost(!likedPost);
         await manageLikeAdService(adInfo._id, loggedUser);
         reloadPostInfo();
@@ -128,7 +117,7 @@ export default function SingleAd() {
             await createNewAdComment(id, data);
             reloadPostInfo();
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 

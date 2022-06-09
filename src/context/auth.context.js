@@ -22,10 +22,8 @@ function AuthWrapper(props) {
             setCompleteUser(completeUserReq.data);
         } catch (error) {
             setIsLoggedIn(false);
-            setCompleteUser("QUE COÑOOOOOOOOOOOOOOOOO");
+            setCompleteUser(null);
             setUser(null);
-            console.log("El usuario no tiene token o el token no es valido")
-            console.log(error);
         }
     }
 

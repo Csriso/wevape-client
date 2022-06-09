@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { UtilityContext } from '../context/utility.context.js'
 import { AuthContext } from '../context/auth.context'
 import { ClipLoader } from 'react-spinners';
 import { BsImageFill } from 'react-icons/bs'
 import { uploadImage } from '../services/util.services'
 import { ImCross } from 'react-icons/im'
 import uuid from 'react-uuid';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { createNewAdService, getAdsService } from '../services/marketplace.services.js';
 import gsap from 'gsap';
 import Ad from '../components/Ad.jsx';
+import { useNavigate } from 'react-router-dom';
 export default function Feed(props) {
 
   // States
@@ -18,8 +17,8 @@ export default function Feed(props) {
   const [newAdForm, setNewAdForm] = useState(false);
   //Contexts
   const { user } = useContext(AuthContext)
-  //Handlers
-
+  // Navigate
+  const navigate = useNavigate()
   // Form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +48,7 @@ export default function Feed(props) {
       setNewAdForm(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
-      console.log(error);
+      navigate("/error");
     }
   }
 
@@ -66,10 +65,9 @@ export default function Feed(props) {
   const getAds = async () => {
     try {
       const response = await getAdsService();
-      console.log(response);
       setAds(response.data)
     } catch (error) {
-      console.log(error);
+      navigate("/error");
     }
   }
 

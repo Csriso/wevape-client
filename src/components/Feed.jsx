@@ -53,7 +53,7 @@ export default function Feed(props) {
       setNewStoryForm(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
-      console.log(error);
+      navigate("/error");
     }
   }
 
@@ -76,16 +76,13 @@ export default function Feed(props) {
     try {
       let response;
       if (look && look === "discover") {
-        console.log("discover");
         response = await getAllPostsService();
       } else {
-        console.log("myfeed");
         response = await getFeedPostsService(user.id);
-        console.log(response.data);
       }
       setPosts(response.data)
     } catch (error) {
-      console.log(error);
+      navigate("/error");
     }
   }
 

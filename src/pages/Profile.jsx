@@ -1,5 +1,5 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import uuid from 'react-uuid';
 import FormatTime from '../components/FormatTime';
@@ -32,9 +32,8 @@ export default function Profile() {
     const handleFollow = async () => {
         try {
             const response = await followProfileService(profileInfo.username, user);
-            console.log(response);
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
         getProfileInfo();
     }
@@ -55,13 +54,11 @@ export default function Profile() {
                 await setMyProfile(true);
             }
         } catch (error) {
-            console.error(error);
+            navigate("/error");
         }
     }
     const checkIfUserFollowed = async (userid) => {
         const response = await getProfileService(completeUser.username);
-        console.log(userid);
-        console.log(response.data.following);
         if (response.data.following.includes(userid)) {
             setFollowed(true);
         } else {
@@ -77,9 +74,8 @@ export default function Profile() {
                 response = await getUsernamePostsService(username);
             }
             setUserPosts(response.data);
-            console.log(response);
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 
@@ -87,11 +83,10 @@ export default function Profile() {
         e.preventDefault();
         try {
             const response = await profileUpdateService(profileInfo._id, editForm);
-            console.log(response);
             authenticateUser();
             setProfileInfo(response.data)
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
         getUserPosts();
         navigate("/");
@@ -99,17 +94,15 @@ export default function Profile() {
     const handleFormChange = (e) => {
         const formCopy = { ...editForm };
         formCopy[e.target.name] = e.target.value;
-        console.log(formCopy);
         setEditForm(formCopy);
     }
 
     const getUserGroups = async () => {
         try {
             const response = await getAllUserGroups(completeUser._id);
-            console.log(response.data);
             setUserGroups(response.data.groups);
         } catch (error) {
-
+            navigate("/error");
         }
     }
 
@@ -140,7 +133,7 @@ export default function Profile() {
                 setSubmitingImage(false);
             }
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 

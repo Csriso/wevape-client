@@ -1,6 +1,5 @@
 // lugar donde esta configurado el service
 import axios from "axios";
-console.log(process.env);
 const service = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL
 })

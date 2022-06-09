@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { UtilityContext } from '../context/utility.context.js'
 import { AuthContext } from '../context/auth.context'
 import { ClipLoader } from 'react-spinners';
 import { BsImageFill } from 'react-icons/bs'
 import { ImCross } from 'react-icons/im'
 import { uploadImage } from '../services/util.services'
 import uuid from 'react-uuid';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Group from '../components/Group.jsx';
 import { getAllGroupsService, newGroupService } from '../services/groups.services.js';
 import gsap from 'gsap'
@@ -14,19 +13,16 @@ import gsap from 'gsap'
 export default function Groups(props) {
 
     // States
-    const [newMessage, setNewMessage] = useState(null);
     const [groups, setGroups] = useState(null);
     const [fileImage, setFileImage] = useState(null);
     const [newGroupForm, setNewGroupForm] = useState(false);
-
     //Contexts
-    const { user, authenticateUser } = useContext(AuthContext)
+    const { authenticateUser } = useContext(AuthContext)
     //Location
     const location = useLocation();
     //Navigate
     const navigate = useNavigate();
     //Handlers
-    const handleNewMessageChange = (e) => setNewMessage(e.target.value)
 
     // Form submit
     const handleSubmit = async (e) => {
@@ -53,7 +49,7 @@ export default function Groups(props) {
             setNewGroupForm(false);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 
@@ -74,10 +70,9 @@ export default function Groups(props) {
     const getGroups = async () => {
         try {
             const response = await getAllGroupsService();
-            console.log(response);
             setGroups(response.data)
         } catch (error) {
-            console.log(error);
+            navigate("/error");
         }
     }
 
