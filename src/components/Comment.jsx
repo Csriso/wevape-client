@@ -106,7 +106,8 @@ export default function Comment(props) {
     const removeComment = async () => {
         try {
             await removeCommentService(commentInfo._id, loggedUser);
-            gsap.to(commentRef.current, { opacity: "0", display: "none" });
+            reloadPostInfo();
+            // gsap.to(commentRef.current, { opacity: "0", display: "none" });
         } catch (error) {
             console.log(error);
         }
@@ -154,7 +155,7 @@ export default function Comment(props) {
                     <div className="flex flex-row justify-between mt-5 w-full">
                         <p className='self-start'>{commentInfo.message}</p>
                         <div className='postIcons flex flex-row'>
-                            {loggedUser.id === commentInfo.user._id && <FaTrash className='hover:text-red-600 mr-9' size={20} onClick={removeComment} />}
+                            {(loggedUser.id === commentInfo.user._id) && (commentInfo.deleted === false) && <FaTrash className='hover:text-red-600 mr-9' size={20} onClick={removeComment} />}
                             <FaRegComment className='text-white text-xl' onClick={handleAddCommentInputShow} onMouseEnter={onEnter} onMouseLeave={onLeave} />
                             <p className='ml-2'>{commentInfo.commentCount}</p>
                             {likedPost ? <BsHeartFill className='ml-9 text-red-600 text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} /> : <BsHeart className='ml-9 text-white text-xl' onClick={handleAddLike} onMouseEnter={onEnter} onMouseLeave={onLeave} />}

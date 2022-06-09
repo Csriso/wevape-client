@@ -5,21 +5,20 @@ import { AuthContext } from '../context/auth.context'
 import { ClipLoader } from 'react-spinners';
 import { BsImageFill } from 'react-icons/bs'
 import { uploadImage } from '../services/util.services'
-import Post from './Post.jsx';
+import { ImCross } from 'react-icons/im'
+import Post from '../components/Post';
 import uuid from 'react-uuid';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { createNewAdService, getAdsService } from '../services/marketplace.services.js';
+import gsap from 'gsap';
 export default function Feed(props) {
 
-  // Props
-  const { look } = props;
   // States
   const [newMessage, setNewMessage] = useState(null);
-  const [posts, setPosts] = useState(null);
+  const [ads, setAds] = useState(null);
   const [fileImage, setFileImage] = useState(null);
-
+  const [newAdForm, setNewAdForm] = useState(false);
   //Contexts
-  const { newStoryForm, setNewStoryForm } = useContext(UtilityContext)
   const { user } = useContext(AuthContext)
   //Location
   const location = useLocation();
@@ -39,18 +38,20 @@ export default function Feed(props) {
         const imageUrl = await uploadImage(uploadData);
         data = {
           user,
-          newMessage,
-          imageUrl: imageUrl.data.fileUrl
+          newMessage: messageRef.current.value,
+          imageUrl: imageUrl.data.fileUrl,
+          price: priceRef.current.value,
         }
       } else {
         data = {
           user,
-          newMessage
+          newMessage: messageRef.current.value,
+          price: priceRef.current.value,
         }
       }
-      await newPostService(data);
-      await getPosts();
-      setNewStoryForm(false);
+      await createNewAdService(data);
+      await getAds();
+      setNewAdForm(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
       console.log(error);
@@ -63,45 +64,50 @@ export default function Feed(props) {
 
   //UseEffects
   useEffect(() => {
-    getPosts();
+    getAds();
   }, [])
 
-  // We use one useEffect with the location as dependency, so each time we move between "/" and "/discover" it causes a re-render
-  useEffect(() => {
-    getPosts();
-  }, [location])
-
   // Get Posts
-  const getPosts = async () => {
+  const getAds = async () => {
     try {
-      let response;
-      if (look && look === "discover") {
-        console.log("discover");
-        response = await getAllPostsService();
-      } else {
-        console.log("myfeed");
-        response = await getFeedPostsService(user.id);
-        console.log(response.data);
-      }
-      setPosts(response.data)
+      const response = await getAdsService();
+      console.log(response);
+      setAds(response.data)
     } catch (error) {
       console.log(error);
     }
   }
 
+  // GSAP Animations
+  const onEnter = ({ currentTarget }) => {
+    gsap.to(currentTarget, { scale: 1.3 });
+  };
+  const onLeave = ({ currentTarget }) => {
+    gsap.to(currentTarget, { scale: 1 });
+  };
+
+
   // REFs
   const inputFile = useRef(null);
+  const messageRef = useRef(null);
+  const priceRef = useRef(null);
 
   // Render
   return (
     <div className="w-4/6 flex flex-col">
+      {(ads && ads.length !== 0) && <button onClick={() => setNewAdForm(!newAdForm)} type="submit" className='mt-8 z-0 self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>New Ad</button>}
+
       {/* Add story form */}
-      {newStoryForm &&
+      {newAdForm &&
         <div style={{ width: "inherit" }} className='fixed z-20 top-0 w-auto bg-black pt-5 mb-5 flex flex-col justify-center justify-items-center content-center px-5 border-b border-gray-600'>
+          <ImCross onClick={() => setNewAdForm(false)} onMouseEnter={onEnter} onMouseLeave={onLeave} />
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col justify-center justify-items-center content-center items-center">
               <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center">
-                <input value={newMessage} onChange={handleNewMessageChange} type="text" name="newPost" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Add new story" />
+                <input ref={messageRef} type="text" name="message" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Enter message" />
+              </div>
+              <div className="w-5/6 flex flex-row justify-center justify-items-center content-center items-center mt-5">
+                <input ref={priceRef} type="text" name="price" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Enter price" />
               </div>
               <div className="w-5/6 mt-3 flex flex-row justify-between justify-items-center content-center items-center align-center">
                 <div className='p-3 rounded-lg bg-gray-700' onClick={handleInputClick}>
@@ -121,17 +127,17 @@ export default function Feed(props) {
       }
 
       {/* Loading posts */}
-      {posts === null && <ClipLoader />}
+      {ads === null && <ClipLoader />}
       {/* We do this if user has no people following */}
-      {((posts && posts.errorMessage === "User is following anyone.") || (posts && posts.length === 0)) &&
+      {((ads && ads.errorMessage === "User is following anyone.") || (ads && ads.length === 0)) &&
         (<div className='flex flex-col justify-center justify-items-center content-center items-center w-full h-full mt-12'>
-          <p>You dont follow anyone, follow someone to see your feed.</p>
-          <button onClick={() => navigate("/discover")} type="submit" className='mt-8 z-0 self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Discover new people</button>
+          <p>No ads yet, create one</p>
+          <button onClick={() => setNewAdForm(!newAdForm)} type="submit" className='mt-8 z-0 self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>New Ad</button>
         </div>)
       }
       {/* After loading posts */}
       {
-        (posts !== null && !posts.errorMessage) && posts.map(elem => {
+        (ads !== null && !ads.errorMessage) && ads.map(elem => {
           return (<Post data={elem} key={uuid()} />)
         })
       }

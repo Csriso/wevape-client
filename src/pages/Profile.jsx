@@ -120,7 +120,9 @@ export default function Profile() {
                 uploadData.append("imageUrl", e.target.files[0]);
                 const imageUrl = await uploadImage(uploadData);
                 await avatarUpdate(user.id, { imageUrl: imageUrl.data.fileUrl });
+                await authenticateUser();
                 await getProfileInfo();
+                getUserPosts();
                 setProfilePic(imageUrl.data.fileUrl);
                 setSubmitingImage(false);
             }

@@ -7,6 +7,7 @@ import Error from './pages/Error';
 import NotFound from './pages/NotFound';
 import Profile from "./pages/Profile";
 import SinglePost from './pages/SinglePost'
+import MarketPlace from './pages/MarketPlace'
 
 // components
 // import Post from "./components/Post";
@@ -27,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/" key={location.pathname} element={<IsPrivate><Feed look="feed" /></IsPrivate>} />
           <Route path="/discover" key={location.pathname} element={<IsPrivate><Feed look="discover" /></IsPrivate>} />
+          <Route path="/marketplace" key={location.pathname} element={<IsPrivate><MarketPlace /></IsPrivate>} />
           <Route path="/profile" element={<IsPrivate><Profile /></IsPrivate>} />
           <Route path="/profile/:username" element={<IsPrivate><Profile /></IsPrivate>} />
 
