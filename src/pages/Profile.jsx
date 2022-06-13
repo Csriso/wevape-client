@@ -181,7 +181,7 @@ export default function Profile() {
                             <div className="mt-2 w-full flex flex-row justify-center justify-items-center content-center items-center">
                                 <input onChange={handleFormChange} type="text" name="description" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Description" />
                             </div>
-                            <p className='mt-4'>Password:</p>
+                            {/* <p className='mt-4'>Password:</p>
                             <div className="mt-2 w-full flex flex-row justify-center justify-items-center content-center items-center">
                                 <input onChange={handleFormChange} type="password" name="password" className="w-full py-2 pl-5 pr-4 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-blue-400 focus:border-blue-300 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring" placeholder="Password" />
                             </div>
@@ -190,7 +190,7 @@ export default function Profile() {
                             </div>
                             <div className="w-full mt-3 flex flex-row justify-center justify-items-center content-center items-center align-center">
                                 <button type="submit" className='self-center ml-5 px-4 py-2 h-12 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80'>Submit</button>
-                            </div>
+                            </div> */}
                         </form>
                     </div>
                 }
