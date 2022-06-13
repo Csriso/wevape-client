@@ -34,7 +34,6 @@ function Signup() {
     } catch (error) {
       const { errorMessage } = error.response.data;
       setError(errorMessage);
-      navigate("/error");
     }
   };
 
