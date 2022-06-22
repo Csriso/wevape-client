@@ -44,8 +44,8 @@ export default function Login() {
             <div className="flex-1">
               <div className="text-center">
                 <h2 className="flex flex-row justify-center text-4xl font-bold text-center text-gray-700 text-white"><img src="logo.png" alt="" width={200} /></h2>
-                <p className="mt-3 text-gray-500 text-gray-300">Sign in to access your account</p>
-                <p className="mt-3 text-gray-500 text-gray-300">Test account: test@test.com | Password: test1234</p>
+                <p className="mt-3 text-gray-500">Sign in to access your account</p>
+                <p className="mt-3 text-gray-300">Test account: test@test.com | Password: test1234</p>
                 {error !== "" &&
                   <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md bg-gray-800 mt-5">
                     <div className="flex items-center justify-center w-12 bg-red-500">
